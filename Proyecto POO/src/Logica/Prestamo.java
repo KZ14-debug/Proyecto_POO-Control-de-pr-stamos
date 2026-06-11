@@ -1,33 +1,35 @@
 package Logica;
 
+import java.util.HashMap;
 import java.util.Map;
 
 
 public class Prestamo {
 	
 	private int idPrestamo;
-	private int numeroId = 1;
-	private String estado;
+	private static int numeroId = 1;
+	private boolean estado;
 	
 	private Map<Integer, Item> items;
 	private Alerta alerta;
 	private Usuario usuario;
 
 	
-	public Prestamo(int idPrestamo, String estado)
+	public Prestamo(int idPrestamo, boolean estado)
 	{
 		this.idPrestamo = numeroId;
 		numeroId++;
 		this.estado = estado;
+		this.items = new HashMap<>();
 	}
 
 
-	public String getEstado() {
+	public boolean getEstado() {
 		return estado;
 	}
 
 
-	public void setEstado(String estado) {
+	public void setEstado(boolean estado) {
 		this.estado = estado;
 	}
 
@@ -80,7 +82,7 @@ public class Prestamo {
     public String toString() {
     	
     	String resultado = "ID Prestamo: " + idPrestamo + "\n  + Estado: " + estado +
-                "\n + Usuario: " + (usuario != null ? usuario.getNombre() : "Sin usuario") +
+                "\n + Usuario: " +  usuario.getNombre()  +
                 "\n" + "Alerta: " + (alerta != null ? alerta : "Sin alerta") +
                 "\n";
         return  resultado;

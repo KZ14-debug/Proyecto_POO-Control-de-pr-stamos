@@ -1,4 +1,6 @@
 package Logica;
+
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -11,6 +13,8 @@ public class Categoria {
 	public Categoria(String categoria)
 	{
 		this.categoria = categoria;
+        this.items = new ArrayList<>();
+
 	}
 
 

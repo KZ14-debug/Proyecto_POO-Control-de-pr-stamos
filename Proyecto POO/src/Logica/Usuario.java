@@ -17,6 +17,7 @@ public class Usuario {
 		this.nombre = nombre;
 		this.correo = correo;
 		this.telefono = telefono;
+        this.prestamos = prestamos;
 	}
 
 
@@ -64,6 +65,7 @@ public class Usuario {
 	{
         prestamos.put(prestamo.getIdPrestamo(), prestamo);
 	}
+	
 	
 	public void borrarPrestamo(int idPrestamo) {
         prestamos.remove(idPrestamo);
