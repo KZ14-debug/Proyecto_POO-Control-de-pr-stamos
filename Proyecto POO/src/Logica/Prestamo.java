@@ -82,9 +82,7 @@ public class Prestamo {
     public String toString() {
     	
     	String resultado = "ID Prestamo: " + idPrestamo + "\n  + Estado: " + estado +
-                "\n + Usuario: " +  usuario.getNombre()  +
-                "\n" + "Alerta: " + (alerta != null ? alerta : "Sin alerta") +
-                "\n";
+                "\n + Usuario: " +  usuario.getNombre()  + "\n" + "Alerta: " + alerta  +"\n";
         return  resultado;
     }
 
