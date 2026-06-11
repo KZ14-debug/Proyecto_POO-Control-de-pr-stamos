@@ -300,7 +300,22 @@ public class Controladora {
 
 	 public void retornarItemDelPrestamo(int idPrestamo,int codigoI) throws Exception 
 	 {
-		 eliminarItemDelPrestamo(idPrestamo,codigoI);
+		 if(!prestamos.containsKey(idPrestamo))
+		 {
+			 throw new Exception("Prestamo no encontrado");
+		 }
+		 
+		 if(!items.containsKey(codigoI))
+		 {
+			 throw new Exception("Item no encontrado");
+		 }
+		 
+		 Prestamo prestamo = prestamos.get(idPrestamo);
+		 Item item = items.get(codigoI);
+		 
+		 
+		 prestamo.borrarItem(codigoI);
+		 item.setDisponible(true);
 	 }
 	 
 	 public void terminarPrestamo(int idPrestamo) throws Exception 
@@ -385,7 +400,7 @@ public class Controladora {
 	 
 	 public List<Item> mostrarListaItemsPrestados() 
 	 {
-		 List<Item> resultado = new ArrayList<>();
+		 List<Item> listado = new ArrayList<>();
 		 
 		 
 		 for (Item item : items.values())
@@ -393,18 +408,18 @@ public class Controladora {
 			 
 			 if (item.isDisponible() == false) 
 			 {
-				 resultado.add(item);	 
+				 listado.add(item);	 
 			 }
 			 
 	     }
 		 
-		 return resultado;
+		 return listado;
 	    
 	 }
 	 
 	 public List<Item> mostrarListaItemsDisponibles() 
 	 {
-		 List<Item> resultado = new ArrayList<>();
+		 List<Item> listado = new ArrayList<>();
 		 
 		 
 		 for (Item item : items.values())
@@ -412,12 +427,12 @@ public class Controladora {
 			 
 			 if (item.isDisponible() == true) 
 			 {
-				 resultado.add(item);	 
+				 listado.add(item);	 
 			 }
 			 
 	     }
 		 
-		 return resultado;
+		 return listado;
 	    
 	 }
 }
