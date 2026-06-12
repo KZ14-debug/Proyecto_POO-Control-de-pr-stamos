@@ -300,22 +300,7 @@ public class Controladora {
 
 	 public void retornarItemDelPrestamo(int idPrestamo,int codigoI) throws Exception 
 	 {
-		 if(!prestamos.containsKey(idPrestamo))
-		 {
-			 throw new Exception("Prestamo no encontrado");
-		 }
-		 
-		 if(!items.containsKey(codigoI))
-		 {
-			 throw new Exception("Item no encontrado");
-		 }
-		 
-		 Prestamo prestamo = prestamos.get(idPrestamo);
-		 Item item = items.get(codigoI);
-		 
-		 
-		 prestamo.borrarItem(codigoI);
-		 item.setDisponible(true);
+		 eliminarItemDelPrestamo(idPrestamo,codigoI);
 	 }
 	 
 	 public void terminarPrestamo(int idPrestamo) throws Exception 
@@ -400,7 +385,7 @@ public class Controladora {
 	 
 	 public List<Item> mostrarListaItemsPrestados() 
 	 {
-		 List<Item> listado = new ArrayList<>();
+		 List<Item> resultado = new ArrayList<>();
 		 
 		 
 		 for (Item item : items.values())
@@ -408,18 +393,18 @@ public class Controladora {
 			 
 			 if (item.isDisponible() == false) 
 			 {
-				 listado.add(item);	 
+				 resultado.add(item);	 
 			 }
 			 
 	     }
 		 
-		 return listado;
+		 return resultado;
 	    
 	 }
 	 
 	 public List<Item> mostrarListaItemsDisponibles() 
 	 {
-		 List<Item> listado = new ArrayList<>();
+		 List<Item> resultado = new ArrayList<>();
 		 
 		 
 		 for (Item item : items.values())
@@ -427,12 +412,39 @@ public class Controladora {
 			 
 			 if (item.isDisponible() == true) 
 			 {
-				 listado.add(item);	 
+				 resultado.add(item);	 
 			 }
 			 
 	     }
 		 
-		 return listado;
+		 return resultado;
 	    
 	 }
+	 
+	
+	 public void asignarTipoAlItem(int codigoI, Tipo tipo) throws Exception
+	 {
+		 if(!items.containsKey(codigoI))
+		 {
+			 throw new Exception("Item no encontrado");
+		 }
+		 
+		 Item item = items.get(codigoI);
+		 
+		 item.setTipo(tipo);
+	 }
+	 
+	 
+	 public void asignarCategoriaAlItem(int codigoI, Categoria categoria) throws Exception
+	 {
+		 if(!items.containsKey(codigoI))
+		 {
+			 throw new Exception("Item no encontrado");
+		 }
+		 
+		 Item item = items.get(codigoI);
+		 
+		 item.agregarCategoria(categoria);
+	 }
+	 
 }

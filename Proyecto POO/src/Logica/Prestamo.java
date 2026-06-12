@@ -1,7 +1,8 @@
 package Logica;
 
-import java.util.HashMap;
+import java.time.LocalDateTime;
 import java.util.Map;
+import java.util.TreeMap;
 
 
 public class Prestamo {
@@ -9,7 +10,7 @@ public class Prestamo {
 	private int idPrestamo;
 	private static int numeroId = 1;
 	private boolean estado;
-	
+	private LocalDateTime tiempoDePrestamo;
 	private Map<Integer, Item> items;
 	private Alerta alerta;
 	private Usuario usuario;
@@ -20,7 +21,8 @@ public class Prestamo {
 		this.idPrestamo = numeroId;
 		numeroId++;
 		this.estado = estado;
-		this.items = new HashMap<>();
+		this.items = new TreeMap<>();;
+		tiempoDePrestamo = LocalDateTime.now();
 	}
 
 
@@ -31,6 +33,12 @@ public class Prestamo {
 
 	public void setEstado(boolean estado) {
 		this.estado = estado;
+	}
+
+	
+
+	public LocalDateTime getTiempoDePrestamo() {
+		return tiempoDePrestamo;
 	}
 
 
@@ -72,6 +80,7 @@ public class Prestamo {
 	
 	public void agregarItem(Item item) {
         items.put(item.getCodigoI(), item);
+        item.setPrestamo(this);
     }
 
     public void borrarItem(int codigoI) {
@@ -82,7 +91,9 @@ public class Prestamo {
     public String toString() {
     	
     	String resultado = "ID Prestamo: " + idPrestamo + "\n  + Estado: " + estado +
-                "\n + Usuario: " +  usuario.getNombre()  + "\n" + "Alerta: " + alerta  +"\n";
+                "\n + Usuario: " +  usuario.getNombre()  +
+                "\n" + "Alerta: " + (alerta != null ? alerta : "Sin alerta") +
+                "\n";
         return  resultado;
     }
 

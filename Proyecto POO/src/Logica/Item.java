@@ -1,6 +1,7 @@
 package Logica;
 
 import java.util.List;
+import java.util.Map;
 
 
 public class Item {
@@ -12,8 +13,9 @@ public class Item {
 	private int codigoNumerico = 1;
 	private Tipo tipo;
 	private List<Categoria> categorias;
+	private Prestamo prestamo;
 	
-	public Item(String nombre, String descripcion, boolean disponible, int codigo, Tipo tipo, List<Categoria> categorias)
+	public Item(String nombre, String descripcion, boolean disponible, int codigo, Tipo tipo, List<Categoria> categorias, Prestamo prestamo)
 	{
 		this.nombre = nombre;
 		this.descripcion = descripcion;
@@ -22,6 +24,8 @@ public class Item {
 		codigoNumerico++;
 		this.tipo = tipo;
 		this.categorias = categorias;
+		this.prestamo = prestamo;
+		
 	}
 
 	public String getNombre() {
@@ -62,6 +66,7 @@ public class Item {
 
 	public void setTipo(Tipo tipo) {
 		this.tipo = tipo;
+		tipo.agregarItem(this);
 	}
 
 	public List<Categoria> getCategorias() {
@@ -77,9 +82,18 @@ public class Item {
 	}
 	
 	
+	public Prestamo getPrestamo() {
+		return prestamo;
+	}
+
+	public void setPrestamo(Prestamo prestamo) {
+		this.prestamo = prestamo;
+	}
+
 	public void agregarCategoria(Categoria categoria){
 		
 		categorias.add(categoria);
+		categoria.agregarItem(this);
 	}
 	
 	public void eliminarCategoria(Categoria categoria) {
