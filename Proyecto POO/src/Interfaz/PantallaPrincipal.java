@@ -17,6 +17,7 @@ import javax.swing.table.DefaultTableModel;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import Control.Controladora;
+import Logica.Categoria;
 import Logica.Tipo;
 
 public class PantallaPrincipal {
@@ -33,6 +34,10 @@ public class PantallaPrincipal {
 	private JButton btnEliminarTipo;
 	private JButton btnAgregarTipo;
 	private JTabbedPane tabbedPane;
+	private JTable tableListaCategoria;
+	private JButton btnAgregarCategoria;
+	private JButton btnEditarCategoria;
+	private JButton btnEliminarCategoria;
 
 	/**
 	 * Launch the application.
@@ -156,6 +161,62 @@ public class PantallaPrincipal {
 		
 		JPanel panelPantallaCategoria = new JPanel();
 		tabbedPane.addTab("Categoria", null, panelPantallaCategoria, null);
+		panelPantallaCategoria.setLayout(null);
+		
+		JLabel lblNewLabel_2 = new JLabel("Categoria");
+		lblNewLabel_2.setFont(new Font("Arial", Font.BOLD, 20));
+		lblNewLabel_2.setBounds(237, 22, 135, 23);
+		panelPantallaCategoria.add(lblNewLabel_2);
+		
+		btnAgregarCategoria = new JButton("Agregar");
+		btnAgregarCategoria.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				AgregarCategoria ventana = new AgregarCategoria(frame);
+				ventana.setVisible(true);
+				
+				if(ventana.isGuardado())
+				{
+					cargarTablaCategorias();
+				}
+			}
+		});
+		btnAgregarCategoria.setFont(new Font("Arial", Font.PLAIN, 12));
+		btnAgregarCategoria.setBounds(480, 112, 89, 23);
+		panelPantallaCategoria.add(btnAgregarCategoria);
+		
+		btnEditarCategoria = new JButton("Editar");
+		btnEditarCategoria.addActionListener(e -> editarCategoria());
+		btnEditarCategoria.setFont(new Font("Arial", Font.PLAIN, 12));
+		btnEditarCategoria.setBounds(480, 157, 89, 23);
+		panelPantallaCategoria.add(btnEditarCategoria);
+		
+		btnEliminarCategoria = new JButton("Eliminar");
+		btnEliminarCategoria.addActionListener(e -> borrarCategoria());
+		btnEliminarCategoria.setFont(new Font("Arial", Font.PLAIN, 12));
+		btnEliminarCategoria.setBounds(480, 207, 89, 23);
+		panelPantallaCategoria.add(btnEliminarCategoria);
+		
+		JScrollPane scrollPane_1 = new JScrollPane();
+		scrollPane_1.setBounds(75, 70, 381, 244);
+		panelPantallaCategoria.add(scrollPane_1);
+		
+		tableListaCategoria = new JTable();
+		tableListaCategoria.setModel(new DefaultTableModel(
+			new Object[][] {
+			},
+			new String[] {
+				"Lista de Categorias"
+			}
+		) {
+			Class[] columnTypes = new Class[] {
+				String.class
+			};
+			public Class getColumnClass(int columnIndex) {
+				return columnTypes[columnIndex];
+			}
+		});
+		scrollPane_1.setViewportView(tableListaCategoria);
 		
 		JPanel panelPantallaTipo = new JPanel();
 		tabbedPane.addTab("Tipo", null, panelPantallaTipo, null);
@@ -221,8 +282,15 @@ public class PantallaPrincipal {
 		tabbedPane.addTab("Alerta", null, panelPantallaAlerta, null);
 		panelPantallaAlerta.setLayout(null);
 		
+		
+		
 		cargarTablaTipos();
+		cargarTablaCategorias();
 	}
+	
+	
+	
+	//-*-*-*-*-*-*-*-*-*--**-*--*-**--**--*-*-**--**-*--*-**-*--*-*-*-*-*-**-*-**-*--**--*-*-*-*-*-*-*-*-*-*-*-*-*-**--*-*-*-*-*-*-*-*-*-**-*-*-*-*
 	
 	private void cargarTablaTipos()
 	{
@@ -291,7 +359,7 @@ public class PantallaPrincipal {
 			return;
 		}
 
-		DefaultTableModel model = (DefaultTableModel)tableListaTipos.getModel();
+		DefaultTableModel model = (DefaultTableModel)tableListaCategoria.getModel();
 
 		String nombreTipo = tableListaTipos.getValueAt(fila, 0).toString();
 
@@ -303,8 +371,93 @@ public class PantallaPrincipal {
 		{
 			cargarTablaTipos();
 		}
+	}
+	
+	//-*-*-*-*-*-*-*-*-*--**-*--*-**--**--*-*-**--**-*--*-**-*--*-*-*-*-*-**-*-**-*--**--*-*-*-*-*-*-*-*-*-*-*-*-*-**--*-*-*-*-*-*-*-*-*-**-*-*-*-*
+	
+	private void cargarTablaCategorias()
+	{
+		DefaultTableModel modelo = (DefaultTableModel) tableListaCategoria.getModel();
+
+		modelo.setRowCount(0);
+
+		for(Categoria categoria : Controladora.getInstance().mostrarListaCategorias())
+		{
+			modelo.addRow(new Object[]
+			{
+				categoria.getCategoria()
+			});
+		}
+	}
+	
+	
+	
+	private void borrarCategoria()
+	{
+		int numeroFila = tableListaCategoria.getSelectedRow();
 		
+		if(numeroFila == -1)
+		{
+			JOptionPane.showMessageDialog(frame, "Debe seleccionar una categoria", "Error", JOptionPane.ERROR_MESSAGE);
+		}
+		else
+		{
+			DefaultTableModel modelo = (DefaultTableModel) tableListaCategoria.getModel();
+
+			String nombreCategoria = (String) modelo.getValueAt(numeroFila, 0);
+
+			int respuesta = JOptionPane.showConfirmDialog(frame, "La categoria \"" + nombreCategoria + "\" será eliminada.", "Confirmar eliminación", JOptionPane.YES_NO_OPTION);
+			
+			
+			if(respuesta == JOptionPane.YES_OPTION)
+			{
+				try
+				{
+					Categoria categoria = new Categoria(nombreCategoria);
+					Controladora.getInstance().borrarCategoria(categoria);
+					
+					cargarTablaCategorias();
+					
+					JOptionPane.showMessageDialog(frame, "Categoria eliminada correctamente");
+				}
+				
+				catch(Exception e)
+				{
+					JOptionPane.showMessageDialog(frame, "Error al eliminar la categoria: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+				}
+				
+			}
+			
+		}
 		
+	}
+	
+	
+	
+	private void editarCategoria() 
+	{
+	
+		int fila = tableListaCategoria.getSelectedRow();
+
+		if(fila == -1)
+		{
+			JOptionPane.showMessageDialog(frame, "Necesita seleccionar una categoria de la tabla", "Error", JOptionPane.ERROR_MESSAGE);
+
+			return;
+		}
+
+		DefaultTableModel model = (DefaultTableModel)tableListaCategoria.getModel();
+
+		String nombreCategoria = tableListaCategoria.getValueAt(fila, 0).toString();
+
+		EditarCategoria dialogo = new EditarCategoria(frame,nombreCategoria);
+
+		dialogo.setVisible(true);
+
+		if(dialogo.isGuardado())
+		{
+			cargarTablaCategorias();
+		}
 	}
 	
 }

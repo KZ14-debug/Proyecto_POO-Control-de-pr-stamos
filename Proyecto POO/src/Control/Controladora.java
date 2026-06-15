@@ -126,14 +126,14 @@ public class Controladora {
 		 categorias.add(categoria);
 	 }
 	 
-	 public void editarCategoria(Categoria categoria) throws Exception
+	 public void editarCategoria(String categoriaOriginal,  Categoria nuevaCategoria) throws Exception
 	 {
 		 
 		 for(int i = 0; i < categorias.size(); i++)
 		 {
-			 if(categorias.get(i).getCategoria().equals(categoria.getCategoria()))
+			 if(categorias.get(i).getCategoria().equals(categoriaOriginal))
 			 {
-				 categorias.set(i, categoria);
+				 categorias.set(i, nuevaCategoria);
 	             return;
 			 }
 		 }
