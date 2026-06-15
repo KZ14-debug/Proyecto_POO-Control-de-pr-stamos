@@ -14,6 +14,7 @@ import Logica.Usuario;
 
 public class Controladora {
 
+	 private static Controladora instance;
 	 private Map<Integer, Item> items;
 	 private Map<String, Usuario> usuarios;
 	 private Map<Integer, Prestamo> prestamos;
@@ -32,6 +33,16 @@ public class Controladora {
 		 alertas = new ArrayList<>();
 	 }
 	 
+	 public static Controladora getInstance()
+	 {
+		 
+		 if(instance == null)
+		 {
+			 instance = new Controladora();	 
+		 }
+		 
+		 return instance;	 
+	 }
 	 
 	 public void crearItem(Item item)
 	 {
@@ -173,14 +184,14 @@ public class Controladora {
 		 tipos.add(tipo);
 	 }
 	 
-	 public void editarTipo(Tipo tipo) throws Exception
+	 public void editarTipo(String nombreOriginal, Tipo nuevoTipo) throws Exception
 	 {
 		 
 		 for(int i = 0; i < tipos.size(); i++)
 		 {
-			 if(tipos.get(i).getTipo().equals(tipo.getTipo()))
+			 if(tipos.get(i).getTipo().equals(nombreOriginal))
 			 {
-				 tipos.set(i, tipo);
+				 tipos.set(i, nuevoTipo);
 	             return;
 			 }
 		 }
@@ -375,7 +386,7 @@ public class Controladora {
 	 
 	 public List<Tipo> mostrarListaTipos() 
 	 {
-		 return new ArrayList<>(tipos);
+		 return tipos;
 	 }
 	 
 	 public Map<Integer, Prestamo> mostrarListaPrestamos() 
@@ -446,5 +457,6 @@ public class Controladora {
 		 
 		 item.agregarCategoria(categoria);
 	 }
+	 
 	 
 }
