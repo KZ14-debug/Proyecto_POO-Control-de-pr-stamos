@@ -19,6 +19,7 @@ import java.awt.event.ActionEvent;
 import Control.Controladora;
 import Logica.Categoria;
 import Logica.Tipo;
+import Logica.Usuario;
 
 public class PantallaPrincipal {
 
@@ -38,6 +39,10 @@ public class PantallaPrincipal {
 	private JButton btnAgregarCategoria;
 	private JButton btnEditarCategoria;
 	private JButton btnEliminarCategoria;
+	private JTable tableListaUsuarios;
+	private JButton btnAgregarUsuario;
+	private JButton btnEditarUsuario;
+	private JButton btnEliminarUsuario;
 
 	/**
 	 * Launch the application.
@@ -152,6 +157,62 @@ public class PantallaPrincipal {
 		
 		JPanel panelPantallaUsuario = new JPanel();
 		tabbedPane.addTab("Usuario", null, panelPantallaUsuario, null);
+		panelPantallaUsuario.setLayout(null);
+		
+		JLabel lblNewLabel_3 = new JLabel("Usuario");
+		lblNewLabel_3.setFont(new Font("Arial", Font.BOLD, 20));
+		lblNewLabel_3.setBounds(255, 21, 73, 14);
+		panelPantallaUsuario.add(lblNewLabel_3);
+		
+		JScrollPane scrollPane_2 = new JScrollPane();
+		scrollPane_2.setBounds(25, 57, 452, 285);
+		panelPantallaUsuario.add(scrollPane_2);
+		
+		tableListaUsuarios = new JTable();
+		tableListaUsuarios.setModel(new DefaultTableModel(
+			new Object[][] {
+			},
+			new String[] {
+				"Nombre", "Telefono", "Correo"
+			}
+		) {
+			Class[] columnTypes = new Class[] {
+				String.class, String.class, String.class
+			};
+			public Class getColumnClass(int columnIndex) {
+				return columnTypes[columnIndex];
+			}
+		});
+		scrollPane_2.setViewportView(tableListaUsuarios);
+		
+		btnAgregarUsuario = new JButton("Agregar");
+		btnAgregarUsuario.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				AgregarUsuario ventana = new AgregarUsuario(frame);
+				ventana.setVisible(true);
+				
+				if(ventana.isGuardado())
+				{
+					cargarTablaUsuarios();
+				}
+			}
+		});
+		btnAgregarUsuario.setFont(new Font("Arial", Font.PLAIN, 12));
+		btnAgregarUsuario.setBounds(497, 96, 89, 23);
+		panelPantallaUsuario.add(btnAgregarUsuario);
+		
+		btnEditarUsuario = new JButton("Editar");
+		btnEditarUsuario.addActionListener(e -> editarUsuario());
+		btnEditarUsuario.setFont(new Font("Arial", Font.PLAIN, 12));
+		btnEditarUsuario.setBounds(497, 161, 89, 23);
+		panelPantallaUsuario.add(btnEditarUsuario);
+		
+		btnEliminarUsuario = new JButton("Eliminar");
+		btnEliminarUsuario.addActionListener(e -> borrarUsuario());
+		btnEliminarUsuario.setFont(new Font("Arial", Font.PLAIN, 12));
+		btnEliminarUsuario.setBounds(497, 230, 89, 23);
+		panelPantallaUsuario.add(btnEliminarUsuario);
 		
 		JPanel panelPantallaItem = new JPanel();
 		tabbedPane.addTab("Item", null, panelPantallaItem, null);
@@ -286,6 +347,7 @@ public class PantallaPrincipal {
 		
 		cargarTablaTipos();
 		cargarTablaCategorias();
+		cargarTablaUsuarios();
 	}
 	
 	
@@ -460,4 +522,93 @@ public class PantallaPrincipal {
 		}
 	}
 	
+	
+	//-*-*-*-*-*-*-*-*-*--**-*--*-**--**--*-*-**--**-*--*-**-*--*-*-*-*-*-**-*-**-*--**--*-*-*-*-*-*-*-*-*-*-*-*-*-**--*-*-*-*-*-*-*-*-*-**-*-*-*-*
+	
+	private void cargarTablaUsuarios()
+	{
+		
+		DefaultTableModel modelo = (DefaultTableModel) tableListaUsuarios.getModel();
+
+		modelo.setRowCount(0);
+
+		for(Usuario usuario : Controladora.getInstance().mostrarListaUsuarios().values())
+		{
+			modelo.addRow(new Object[]
+			{
+				usuario.getNombre(), usuario.getTelefono(), usuario.getCorreo()
+			});
+		}
+	}
+	
+	
+	private void borrarUsuario()
+	{
+		int numeroFila = tableListaUsuarios.getSelectedRow();
+		
+		if(numeroFila == -1)
+		{
+			JOptionPane.showMessageDialog(frame, "Debe seleccionar un usuario", "Error", JOptionPane.ERROR_MESSAGE);
+		}
+		else
+		{
+			DefaultTableModel modelo = (DefaultTableModel) tableListaUsuarios.getModel();
+
+			String nombre = (String) modelo.getValueAt(numeroFila, 0);
+			String telefono = (String) modelo.getValueAt(numeroFila, 1);
+			String correo = (String) modelo.getValueAt(numeroFila, 2);
+
+			int respuesta = JOptionPane.showConfirmDialog(frame, "El usuario \"" + correo + "\" será eliminada.", "Confirmar eliminación", JOptionPane.YES_NO_OPTION);
+			
+			
+			if(respuesta == JOptionPane.YES_OPTION)
+			{
+				try
+				{
+					Controladora.getInstance().borrarUsuario(correo);
+					
+					cargarTablaUsuarios();
+					
+					JOptionPane.showMessageDialog(frame, "Usuario eliminado correctamente");
+				}
+				
+				catch(Exception e)
+				{
+					JOptionPane.showMessageDialog(frame, "Error al eliminar el usuario: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+				}
+				
+			}
+			
+		}
+		
+	}
+	
+	private void editarUsuario() 
+	{
+	
+		int fila = tableListaUsuarios.getSelectedRow();
+
+		if(fila == -1)
+		{
+			JOptionPane.showMessageDialog(frame, "Necesita seleccionar un usuario de la tabla", "Error", JOptionPane.ERROR_MESSAGE);
+
+			return;
+		}
+
+		DefaultTableModel model = (DefaultTableModel)tableListaUsuarios.getModel();
+
+		String correo = tableListaUsuarios.getValueAt(fila, 2).toString();
+		String nombre = tableListaUsuarios.getValueAt(fila, 0).toString();
+		String telefono = tableListaUsuarios.getValueAt(fila, 1).toString();
+		
+		EditarUsuario dialogo = new EditarUsuario(frame,correo,nombre,telefono);
+
+		dialogo.setVisible(true);
+
+		if(dialogo.isGuardado())
+		{
+			cargarTablaCategorias();
+		}
+	}
+
 }
