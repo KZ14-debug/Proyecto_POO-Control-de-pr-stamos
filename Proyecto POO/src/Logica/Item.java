@@ -10,7 +10,7 @@ public class Item {
 	private String descripcion;
 	private boolean disponible;
 	private int codigoI;
-	private int codigoNumerico = 1;
+	private static int codigoNumerico = 1;
 	private Tipo tipo;
 	private List<Categoria> categorias;
 	private Prestamo prestamo;
@@ -19,7 +19,7 @@ public class Item {
 	{
 		this.nombre = nombre;
 		this.descripcion = descripcion;
-		this.disponible = true;
+		this.disponible = disponible;
 		this.codigoI = codigoNumerico;
 		codigoNumerico++;
 		this.tipo = tipo;

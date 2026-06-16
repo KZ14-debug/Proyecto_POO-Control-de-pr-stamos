@@ -18,6 +18,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import Control.Controladora;
 import Logica.Categoria;
+import Logica.Item;
 import Logica.Tipo;
 import Logica.Usuario;
 
@@ -43,6 +44,10 @@ public class PantallaPrincipal {
 	private JButton btnAgregarUsuario;
 	private JButton btnEditarUsuario;
 	private JButton btnEliminarUsuario;
+	private JTable tableListaItems;
+	private JButton btnAgregarItem;
+	private JButton btnEditarItem;
+	private JButton btnEliminarItem;
 
 	/**
 	 * Launch the application.
@@ -72,7 +77,7 @@ public class PantallaPrincipal {
 	 */
 	private void initialize() {
 		frame = new JFrame();
-		frame.setBounds(100, 100, 642, 441);
+		frame.setBounds(100, 100, 632, 424);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(new BorderLayout(0, 0));
 		
@@ -216,6 +221,67 @@ public class PantallaPrincipal {
 		
 		JPanel panelPantallaItem = new JPanel();
 		tabbedPane.addTab("Item", null, panelPantallaItem, null);
+		panelPantallaItem.setLayout(null);
+		
+		JLabel lblNewLabel_4 = new JLabel("Item");
+		lblNewLabel_4.setFont(new Font("Arial", Font.BOLD, 20));
+		lblNewLabel_4.setBounds(268, 22, 46, 14);
+		panelPantallaItem.add(lblNewLabel_4);
+		
+		JScrollPane scrollPane_3 = new JScrollPane();
+		scrollPane_3.setBounds(20, 61, 441, 272);
+		panelPantallaItem.add(scrollPane_3);
+		
+		tableListaItems = new JTable();
+		tableListaItems.setModel(new DefaultTableModel(
+			new Object[][] {
+			},
+			new String[] {
+				"Nombre item", "Codigo", "Disponible", "Descripcion", "Categoria", "Tipo"
+			}
+		) {
+			Class[] columnTypes = new Class[] {
+				String.class, Integer.class, Boolean.class, String.class, Object.class, Object.class
+			};
+			public Class getColumnClass(int columnIndex) {
+				return columnTypes[columnIndex];
+			}
+			
+			@Override
+			public boolean isCellEditable(int row, int column) {
+				return false;
+			}
+		});
+		scrollPane_3.setViewportView(tableListaItems);
+		
+		btnAgregarItem = new JButton("Agregar");
+		btnAgregarItem.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				AgregarItem ventana = new AgregarItem(frame);
+				ventana.setVisible(true);
+				
+				if(ventana.isGuardado())
+				{
+					cargarTablaItems();
+				}
+			}
+		});
+		btnAgregarItem.setFont(new Font("Arial", Font.PLAIN, 12));
+		btnAgregarItem.setBounds(488, 116, 89, 23);
+		panelPantallaItem.add(btnAgregarItem);
+		
+		btnEditarItem = new JButton("Editar");
+		btnEditarItem.addActionListener(e -> editarItem());
+		btnEditarItem.setFont(new Font("Arial", Font.PLAIN, 12));
+		btnEditarItem.setBounds(488, 167, 89, 23);
+		panelPantallaItem.add(btnEditarItem);
+		
+		btnEliminarItem = new JButton("Borrar");
+		btnEliminarItem.addActionListener(e -> borrarItem());
+		btnEliminarItem.setFont(new Font("Arial", Font.PLAIN, 12));
+		btnEliminarItem.setBounds(488, 217, 89, 23);
+		panelPantallaItem.add(btnEliminarItem);
 		
 		JPanel panelPantallaPrestamo = new JPanel();
 		tabbedPane.addTab("Prestamo", null, panelPantallaPrestamo, null);
@@ -348,6 +414,7 @@ public class PantallaPrincipal {
 		cargarTablaTipos();
 		cargarTablaCategorias();
 		cargarTablaUsuarios();
+		cargarTablaItems();
 	}
 	
 	
@@ -585,7 +652,7 @@ public class PantallaPrincipal {
 	
 	private void editarUsuario() 
 	{
-	
+		
 		int fila = tableListaUsuarios.getSelectedRow();
 
 		if(fila == -1)
@@ -610,5 +677,114 @@ public class PantallaPrincipal {
 			cargarTablaCategorias();
 		}
 	}
+	
+	
+	
+	//-*-*-*-*-*-*-*-*-*--**-*--*-**--**--*-*-**--**-*--*-**-*--*-*-*-*-*-**-*-**-*--**--*-*-*-*-*-*-*-*-*-*-*-*-*-**--*-*-*-*-*-*-*-*-*-**-*-*-*-*
+	
+	private void cargarTablaItems()
+	{
+			
+		DefaultTableModel modelo = (DefaultTableModel) tableListaItems.getModel();
 
+		modelo.setRowCount(0);
+
+		for(Item item : Controladora.getInstance().mostrarListaItems().values())
+		{
+			modelo.addRow(new Object[]
+					{
+							item.getNombre(),item.getCodigoI(), item.isDisponible(), item.getDescripcion(), obtenerCategorias(item), item.getTipo().getTipo()
+					});
+		}
+	}
+	
+	
+	private String obtenerCategorias(Item item)
+	{
+	    String categorias = "";
+
+	    for(Categoria categoria : item.getCategorias())
+	    {
+	        categorias = categorias + categoria.getCategoria() + " ";
+	    }
+
+	    
+	    return categorias;
+	}
+	
+	
+	
+	private void borrarItem()
+	{
+		int numeroFila = tableListaItems.getSelectedRow();
+		
+		if(numeroFila == -1)
+		{
+			JOptionPane.showMessageDialog(frame, "Debe seleccionar un item", "Error", JOptionPane.ERROR_MESSAGE);
+		}
+		
+		else
+		{
+			DefaultTableModel modelo = (DefaultTableModel) tableListaItems.getModel();
+
+			String nombre = (String) modelo.getValueAt(numeroFila, 0);
+			int codigo = (int) modelo.getValueAt(numeroFila, 1);
+			boolean disponible = (boolean) modelo.getValueAt(numeroFila, 2);
+			String descripcion = (String) modelo.getValueAt(numeroFila, 3);
+			String categoria = (String) modelo.getValueAt(numeroFila, 4);
+			String tipo = (String) modelo.getValueAt(numeroFila, 5);
+
+			int respuesta = JOptionPane.showConfirmDialog(frame, "El item \"" + nombre + "\" será eliminada.", "Confirmar eliminación", JOptionPane.YES_NO_OPTION);
+			
+			
+			if(respuesta == JOptionPane.YES_OPTION)
+			{
+				try
+				{
+					Controladora.getInstance().borrarItem(codigo);
+					
+					cargarTablaItems();
+					
+					JOptionPane.showMessageDialog(frame, "Item eliminado correctamente");
+				}
+				
+				catch(Exception e)
+				{
+					JOptionPane.showMessageDialog(frame, "Error al eliminar el item: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+				}	
+			}	
+		}
+	}
+	
+	
+	
+	private void editarItem() 
+	{
+		
+		int fila = tableListaItems.getSelectedRow();
+
+		if(fila == -1)
+		{
+			JOptionPane.showMessageDialog(frame, "Necesita seleccionar un item de la tabla", "Error", JOptionPane.ERROR_MESSAGE);
+
+			return;
+		}
+
+		DefaultTableModel model = (DefaultTableModel)tableListaItems.getModel();
+
+		String nombre = tableListaItems.getValueAt(fila, 0).toString();
+		int codigo = (int) tableListaItems.getValueAt(fila, 1);
+		boolean disponible = (boolean) tableListaItems.getValueAt(fila, 2);
+	    String descripcion = tableListaItems.getValueAt(fila, 3).toString();
+	    String tipo = tableListaItems.getValueAt(fila, 5).toString();
+		
+		EditarItem dialogo = new EditarItem(frame, codigo, nombre, descripcion, disponible, tipo);
+
+		dialogo.setVisible(true);
+
+		if(dialogo.isGuardado())
+		{
+			cargarTablaItems();
+		}
+	}
 }

@@ -56,7 +56,7 @@ public class Tipo {
 	public String toString()
 	{
 		
-		String resultado= "Tipo del item: " + tipo + "\n";
+		String resultado=  tipo + "\n";
 
 	    return resultado;
 		

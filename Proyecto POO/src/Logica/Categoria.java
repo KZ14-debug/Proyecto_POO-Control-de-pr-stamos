@@ -57,7 +57,7 @@ public class Categoria {
     public String toString()
 	{
 		
-		String resultado= "La categoria del item es: " + categoria;
+		String resultado= categoria;
 
 	    return resultado;
 		
