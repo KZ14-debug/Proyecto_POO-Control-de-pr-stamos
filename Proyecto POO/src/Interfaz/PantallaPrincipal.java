@@ -17,8 +17,10 @@ import javax.swing.table.DefaultTableModel;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import Control.Controladora;
+import Logica.Alerta;
 import Logica.Categoria;
 import Logica.Item;
+import Logica.Prestamo;
 import Logica.Tipo;
 import Logica.Usuario;
 
@@ -48,6 +50,10 @@ public class PantallaPrincipal {
 	private JButton btnAgregarItem;
 	private JButton btnEditarItem;
 	private JButton btnEliminarItem;
+	private JTable tableListaPrestamosHechos;
+	private JButton btnAgregarP;
+	private JButton btnRetornarItemDePrestamo;
+	private Alerta alertaPrestamo;
 
 	/**
 	 * Launch the application.
@@ -285,6 +291,60 @@ public class PantallaPrincipal {
 		
 		JPanel panelPantallaPrestamo = new JPanel();
 		tabbedPane.addTab("Prestamo", null, panelPantallaPrestamo, null);
+		panelPantallaPrestamo.setLayout(null);
+		
+		JLabel lblNewLabel_5 = new JLabel("Prestamos");
+		lblNewLabel_5.setFont(new Font("Arial", Font.BOLD, 14));
+		lblNewLabel_5.setBounds(255, 21, 74, 14);
+		panelPantallaPrestamo.add(lblNewLabel_5);
+		
+		JScrollPane scrollPane_4 = new JScrollPane();
+		scrollPane_4.setBounds(21, 62, 425, 284);
+		panelPantallaPrestamo.add(scrollPane_4);
+		
+		tableListaPrestamosHechos = new JTable();
+		tableListaPrestamosHechos.setModel(new DefaultTableModel(
+			new Object[][] {
+			},
+			new String[] {
+				"Usuario", "Items", "Alerta Activa"
+			}
+		) {
+			Class[] columnTypes = new Class[] {
+				String.class, String.class, Boolean.class
+			};
+			public Class getColumnClass(int columnIndex) {
+				return columnTypes[columnIndex];
+			}
+		});
+		scrollPane_4.setViewportView(tableListaPrestamosHechos);
+		
+		btnAgregarP = new JButton("Crear Prestamo");
+		btnAgregarP.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				HacerPrestamo ventana = new HacerPrestamo(frame);
+				ventana.setVisible(true);
+				
+				if(ventana.isGuardado())
+				{
+					cargarTablaPrestamos();
+				}
+			}
+		});
+		btnAgregarP.setFont(new Font("Arial", Font.PLAIN, 12));
+		btnAgregarP.setBounds(467, 79, 121, 23);
+		panelPantallaPrestamo.add(btnAgregarP);
+		
+		btnRetornarItemDePrestamo = new JButton("Retornar item");
+		btnRetornarItemDePrestamo.setFont(new Font("Arial", Font.PLAIN, 12));
+		btnRetornarItemDePrestamo.setBounds(467, 123, 121, 23);
+		panelPantallaPrestamo.add(btnRetornarItemDePrestamo);
+		
+		JButton btnFinalizarP = new JButton("Finalizar Prestamo");
+		btnFinalizarP.setFont(new Font("Arial", Font.PLAIN, 12));
+		btnFinalizarP.setBounds(467, 164, 121, 23);
+		panelPantallaPrestamo.add(btnFinalizarP);
 		
 		JPanel panelPantallaCategoria = new JPanel();
 		tabbedPane.addTab("Categoria", null, panelPantallaCategoria, null);
@@ -415,6 +475,7 @@ public class PantallaPrincipal {
 		cargarTablaCategorias();
 		cargarTablaUsuarios();
 		cargarTablaItems();
+		cargarTablaPrestamos();
 	}
 	
 	
@@ -787,4 +848,22 @@ public class PantallaPrincipal {
 			cargarTablaItems();
 		}
 	}
+	
+	//-*-*-*-*-*-*-*-*-*--**-*--*-**--**--*-*-**--**-*--*-**-*--*-*-*-*-*-**-*-**-*--**--*-*-*-*-*-*-*-*-*-*-*-*-*-**--*-*-*-*-*-*-*-*-*-**-*-*-*-*
+
+	private void cargarTablaPrestamos()
+	{
+		DefaultTableModel modelo = (DefaultTableModel) tableListaPrestamosHechos.getModel();
+
+		modelo.setRowCount(0);
+
+		for(Prestamo prestamo : Controladora.getInstance().mostrarListaPrestamos().values())
+		{
+			modelo.addRow(new Object[]
+			{
+					prestamo.getUsuario().getNombre(), prestamo.getNombresItems(),prestamo.getAlerta() != null
+			});
+		}
+	}
+	
 }

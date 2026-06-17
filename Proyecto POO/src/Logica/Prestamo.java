@@ -87,6 +87,17 @@ public class Prestamo {
         items.remove(codigoI);
     }
 	
+    public String getNombresItems()
+    {
+        String resultado = "";
+
+        for(Item item : items.values())
+        {
+            resultado += item.getNombre() + ", ";
+        }
+
+        return resultado;
+    }
     
     public String toString() {
     	

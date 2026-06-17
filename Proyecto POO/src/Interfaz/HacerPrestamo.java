@@ -6,6 +6,7 @@ import java.awt.FlowLayout;
 
 import javax.swing.JButton;
 import javax.swing.JDialog;
+import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.JLabel;
@@ -21,8 +22,11 @@ import Control.Controladora;
 import java.util.ArrayList;
 import java.util.List;
 
+import Logica.Alerta;
 import Logica.Item;
+import Logica.Prestamo;
 import Logica.Usuario;
+import javax.swing.JCheckBox;
 
 public class HacerPrestamo extends JDialog {
 
@@ -38,25 +42,23 @@ public class HacerPrestamo extends JDialog {
 	private JButton btnEliminarItemDePrestamo;
 	private List<Item> itemsPrestamo = new ArrayList<>();
 	private Usuario usuarioSeleccionado;
+	private JButton btnAgregarAlertaAPrestamo;
+	private JCheckBox chckbxActivarAlerta;
+	private Alerta alertaPrestamo;
+	private boolean guardado;
 
 	/**
 	 * Launch the application.
 	 */
-	public static void main(String[] args) {
-		try {
-			HacerPrestamo dialog = new HacerPrestamo();
-			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
-			dialog.setVisible(true);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
+
 
 	/**
 	 * Create the dialog.
 	 */
-	public HacerPrestamo() {
+	public HacerPrestamo(JFrame frame) {
 		setBounds(100, 100, 630, 454);
+		setModal(true);
+		setLocationRelativeTo(frame);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
@@ -80,6 +82,7 @@ public class HacerPrestamo extends JDialog {
 		contentPanel.add(btnAgregarUaP);
 		
 		btnAgregarP = new JButton("Agregar");
+		btnAgregarP.addActionListener(e -> guardarPrestamo());
 		btnAgregarP.setFont(new Font("Arial", Font.PLAIN, 12));
 		btnAgregarP.setBounds(416, 381, 89, 23);
 		contentPanel.add(btnAgregarP);
@@ -145,6 +148,17 @@ public class HacerPrestamo extends JDialog {
 		btnEliminarItemDePrestamo.setFont(new Font("Arial", Font.PLAIN, 12));
 		btnEliminarItemDePrestamo.setBounds(150, 381, 105, 23);
 		contentPanel.add(btnEliminarItemDePrestamo);
+		
+		btnAgregarAlertaAPrestamo = new JButton("Agregar Alerta");
+		btnAgregarAlertaAPrestamo.addActionListener(e -> agregarAlerta());
+		btnAgregarAlertaAPrestamo.setFont(new Font("Arial", Font.PLAIN, 12));
+		btnAgregarAlertaAPrestamo.setBounds(150, 347, 117, 23);
+		contentPanel.add(btnAgregarAlertaAPrestamo);
+		
+		chckbxActivarAlerta = new JCheckBox("Alerta");
+		chckbxActivarAlerta.setEnabled(false);
+		chckbxActivarAlerta.setBounds(507, 61, 97, 23);
+		contentPanel.add(chckbxActivarAlerta);
 	}
 	
 	
@@ -253,4 +267,79 @@ public class HacerPrestamo extends JDialog {
 			
 		}
 	}
+	
+	
+	private void agregarAlerta()
+	{
+		AgregarAlertaAPrestamo dialogo = new AgregarAlertaAPrestamo();
+		dialogo.setModal(true);
+		dialogo.setLocationRelativeTo(this);
+		dialogo.setVisible(true);
+		Alerta alerta = dialogo.getAlerta();
+		
+		if(alerta != null)
+		{
+			alertaPrestamo = alerta;
+			chckbxActivarAlerta.setSelected(true);
+			
+			JOptionPane.showMessageDialog(this, "Alerta agregada correctamente");
+		}
+		
+	}
+	
+	
+	private void guardarPrestamo()
+	{
+		try
+		{
+			if(usuarioSeleccionado == null)
+			{
+				JOptionPane.showMessageDialog(this,"Debe seleccionar un usuario par realizar el prestamo");
+	            return;
+			}
+			
+			
+			if(itemsPrestamo.isEmpty())
+	        {
+	            JOptionPane.showMessageDialog(this,"Debe agregar un item al prestamo");
+	            return;
+	        }
+			
+			
+			
+			Prestamo prestamo = Controladora.getInstance().hacerPrestamo(usuarioSeleccionado.getCorreo());
+			
+			
+			
+			for(Item item : itemsPrestamo)
+	        {
+	            prestamo.agregarItem(item);
+	        }
+
+			
+	        if(alertaPrestamo != null)
+	        {
+	            prestamo.setAlerta(alertaPrestamo);
+	        }
+	        
+	        guardado = true;
+	        
+	        JOptionPane.showMessageDialog(this, "Prestamo creado exitosamente");
+	        
+	        dispose();
+		}
+		catch(Exception e)
+	    {
+	        JOptionPane.showMessageDialog(this, e.getMessage());
+	    }
+	}
+	
+	
+	public boolean isGuardado()
+	{
+		return guardado;
+	}
+	
 }
+
+
