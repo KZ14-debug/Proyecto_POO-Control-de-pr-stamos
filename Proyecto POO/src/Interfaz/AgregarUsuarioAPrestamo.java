@@ -25,6 +25,7 @@ public class AgregarUsuarioAPrestamo extends JDialog {
 	private JTable tableUsuariosParaAgregarAPrestamo;
 	private JButton btnAgregarUaP;
 	private JButton btnCancelarUaP;
+	private Usuario usuarioSeleccionado;
 
 	/**
 	 * Launch the application.
@@ -61,6 +62,14 @@ public class AgregarUsuarioAPrestamo extends JDialog {
 						"Nombre", "Correo", "Telefono"
 					}
 				) {
+					
+					@Override
+					
+					public boolean isCellEditable(int row, int column)
+					{
+						return false;	
+					}
+					 
 					Class[] columnTypes = new Class[] {
 						String.class, String.class, String.class
 					};
@@ -73,12 +82,14 @@ public class AgregarUsuarioAPrestamo extends JDialog {
 		}
 		{
 			btnAgregarUaP = new JButton("Agregar");
+			btnAgregarUaP.addActionListener(e -> agregarUsuarioAPrestamo());
 			btnAgregarUaP.setFont(new Font("Arial", Font.PLAIN, 12));
 			btnAgregarUaP.setBounds(128, 293, 104, 29);
 			contentPanel.add(btnAgregarUaP);
 		}
 		{
 			btnCancelarUaP = new JButton("Cancelar");
+			btnCancelarUaP.addActionListener(e -> dispose());
 			btnCancelarUaP.setFont(new Font("Arial", Font.PLAIN, 12));
 			btnCancelarUaP.setBounds(364, 293, 104, 29);
 			contentPanel.add(btnCancelarUaP);
@@ -89,8 +100,10 @@ public class AgregarUsuarioAPrestamo extends JDialog {
 	
 	public Usuario getUsuarioSeleccionado()
 	{
-	    return usuarioSeleccionado();
+	    return usuarioSeleccionado;
 	}
+	
+	
 	
 	private void cargarUsuariosDisponibles()
 	{
@@ -99,19 +112,14 @@ public class AgregarUsuarioAPrestamo extends JDialog {
 		model.setRowCount(0);
 		
 		
-		for(Usuario usuario : Controladora.getInstance().tableUsuariosParaAgregarAPrestamo().values())
+		for(Usuario usuario : Controladora.getInstance().mostrarListaUsuarios().values())
 		{
 			
-			if(usuario.getPrestamos() == null)
-			{
-				
-				model.addRow(new Object[]
-				{
-					
-					usuario.getNombre(), usuario.getCorreo(), usuario.getTelefono()
-				});
-			}
-			
+			model.addRow(new Object[]
+					{
+						
+						usuario.getNombre(), usuario.getCorreo(), usuario.getTelefono()
+					});
 		}
 	}
 	

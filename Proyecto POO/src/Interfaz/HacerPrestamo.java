@@ -15,10 +15,14 @@ import javax.swing.JScrollPane;
 import java.awt.Font;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
+
+import Control.Controladora;
+
 import java.util.ArrayList;
 import java.util.List;
 
 import Logica.Item;
+import Logica.Usuario;
 
 public class HacerPrestamo extends JDialog {
 
@@ -33,6 +37,7 @@ public class HacerPrestamo extends JDialog {
 	private JTextField textFieldCorreoParaPrestamo;
 	private JButton btnEliminarItemDePrestamo;
 	private List<Item> itemsPrestamo = new ArrayList<>();
+	private Usuario usuarioSeleccionado;
 
 	/**
 	 * Launch the application.
@@ -69,6 +74,7 @@ public class HacerPrestamo extends JDialog {
 		contentPanel.add(btnAgregarIaP);
 		
 		btnAgregarUaP = new JButton("Agregar Usuario");
+		btnAgregarUaP.addActionListener(e -> agregarUsuarioAPrestamo());
 		btnAgregarUaP.setFont(new Font("Arial", Font.PLAIN, 12));
 		btnAgregarUaP.setBounds(10, 347, 130, 23);
 		contentPanel.add(btnAgregarUaP);
@@ -121,6 +127,7 @@ public class HacerPrestamo extends JDialog {
 		textFieldNombreUsuarioParaPrestamo.setBounds(113, 59, 321, 17);
 		contentPanel.add(textFieldNombreUsuarioParaPrestamo);
 		textFieldNombreUsuarioParaPrestamo.setColumns(10);
+		textFieldNombreUsuarioParaPrestamo.setEditable(false);
 		
 		JLabel lblNewLabel_2 = new JLabel("Correo:");
 		lblNewLabel_2.setFont(new Font("Arial", Font.PLAIN, 12));
@@ -131,6 +138,7 @@ public class HacerPrestamo extends JDialog {
 		textFieldCorreoParaPrestamo.setBounds(66, 83, 368, 20);
 		contentPanel.add(textFieldCorreoParaPrestamo);
 		textFieldCorreoParaPrestamo.setColumns(10);
+		textFieldCorreoParaPrestamo.setEditable(false);
 		
 		btnEliminarItemDePrestamo = new JButton("Eliminar item");
 		btnEliminarItemDePrestamo.addActionListener(e -> eliminarItemDelPrestamo());
@@ -157,8 +165,7 @@ public class HacerPrestamo extends JDialog {
 			
 			if(itemsPrestamo.contains(item))
 			{
-			    JOptionPane.showMessageDialog(this,
-			            "Ese item ya fue agregado al préstamo");
+			    JOptionPane.showMessageDialog(this,"Este item ya esta agregado al préstamo");
 			    return;
 			}
 			
@@ -208,8 +215,42 @@ public class HacerPrestamo extends JDialog {
 		}
 		
 		
-		itemsPrestamo.remove(fila);
-		cargarTablaItemsParaPrestamo();
+		Item item = itemsPrestamo.get(fila);
+		int respuesta = JOptionPane.showConfirmDialog(this, "El item \"" + item.getNombre() + "\" será eliminado.", "Confirmar eliminación", JOptionPane.YES_NO_OPTION);
 		
+		
+		if(respuesta == JOptionPane.YES_OPTION)
+		{
+		
+			itemsPrestamo.remove(fila);
+			cargarTablaItemsParaPrestamo();
+			
+			JOptionPane.showMessageDialog(this, "El item se elimino correctamente");
+		}
+	}
+	
+	
+	
+	
+	private void agregarUsuarioAPrestamo()
+	{
+		
+		AgregarUsuarioAPrestamo dialogo = new AgregarUsuarioAPrestamo();
+		
+		dialogo.setModal(true);
+		dialogo.setLocationRelativeTo(this);
+		dialogo.setVisible(true);
+		Usuario usuario = dialogo.getUsuarioSeleccionado();
+		
+		
+		if(usuario != null)
+		{
+			
+			usuarioSeleccionado = usuario;
+
+	        textFieldNombreUsuarioParaPrestamo.setText(usuario.getNombre());
+	        textFieldCorreoParaPrestamo.setText(usuario.getCorreo());
+			
+		}
 	}
 }
