@@ -32,7 +32,7 @@ public class PantallaPrincipal {
 	private JButton btnPantallaPrestamo;
 	private JButton btnPantallaCategoria;
 	private JButton btnPantallaTipo;
-	private JButton btnPantallaAlerta;
+	private JButton btnPantallaReportes;
 	private JTable tableListaTipos;
 	private JButton btnEditarTipo;
 	private JButton btnEliminarTipo;
@@ -54,6 +54,10 @@ public class PantallaPrincipal {
 	private JButton btnAgregarP;
 	private JButton btnRetornarItemDePrestamo;
 	private Alerta alertaPrestamo;
+	private JButton btnReporteUsuarios;
+	private JButton btnReporteItems;
+	private JButton btnReporteCategorias;
+	private JButton btnReporteTipos;
 
 	/**
 	 * Launch the application.
@@ -155,16 +159,16 @@ public class PantallaPrincipal {
 		panelPantallaPrincipal.add(btnPantallaTipo);
 		
 		
-		btnPantallaAlerta = new JButton("Alertas");
-		btnPantallaAlerta.addActionListener(new ActionListener() {
+		btnPantallaReportes = new JButton("Reportes");
+		btnPantallaReportes.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) 
 			{
 				tabbedPane.setSelectedIndex(6);
 			}
 		});
-		btnPantallaAlerta.setFont(new Font("Arial", Font.PLAIN, 14));
-		btnPantallaAlerta.setBounds(266, 318, 89, 23);
-		panelPantallaPrincipal.add(btnPantallaAlerta);
+		btnPantallaReportes.setFont(new Font("Arial", Font.PLAIN, 14));
+		btnPantallaReportes.setBounds(254, 323, 112, 23);
+		panelPantallaPrincipal.add(btnPantallaReportes);
 		
 		JPanel panelPantallaUsuario = new JPanel();
 		tabbedPane.addTab("Usuario", null, panelPantallaUsuario, null);
@@ -472,9 +476,40 @@ public class PantallaPrincipal {
 		});
 		scrollPane.setViewportView(tableListaTipos);
 		
-		JPanel panelPantallaAlerta = new JPanel();
-		tabbedPane.addTab("Alerta", null, panelPantallaAlerta, null);
-		panelPantallaAlerta.setLayout(null);
+		JPanel panelPantallaReportes = new JPanel();
+		tabbedPane.addTab("Alerta", null, panelPantallaReportes, null);
+		panelPantallaReportes.setLayout(null);
+		
+		JLabel lblNewLabel_6 = new JLabel("Reportes");
+		lblNewLabel_6.setFont(new Font("Arial", Font.BOLD, 20));
+		lblNewLabel_6.setBounds(265, 22, 86, 23);
+		panelPantallaReportes.add(lblNewLabel_6);
+		
+		btnReporteUsuarios = new JButton("Reporte Usuarios");
+		btnReporteUsuarios.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				ReporteUsuarios ventana = new ReporteUsuarios(frame);
+				ventana.setVisible(true);
+			}
+		});
+		btnReporteUsuarios.setFont(new Font("Arial", Font.PLAIN, 12));
+		btnReporteUsuarios.setBounds(231, 73, 149, 33);
+		panelPantallaReportes.add(btnReporteUsuarios);
+		
+		btnReporteItems = new JButton("Reporte Items");
+		btnReporteItems.setFont(new Font("Arial", Font.PLAIN, 12));
+		btnReporteItems.setBounds(231, 145, 149, 33);
+		panelPantallaReportes.add(btnReporteItems);
+		
+		btnReporteCategorias = new JButton("Reporte Categorias");
+		btnReporteCategorias.setFont(new Font("Arial", Font.PLAIN, 12));
+		btnReporteCategorias.setBounds(231, 300, 149, 33);
+		panelPantallaReportes.add(btnReporteCategorias);
+		
+		btnReporteTipos = new JButton("Reporte Tipos");
+		btnReporteTipos.setFont(new Font("Arial", Font.PLAIN, 12));
+		btnReporteTipos.setBounds(231, 225, 149, 33);
+		panelPantallaReportes.add(btnReporteTipos);
 		
 		
 		
