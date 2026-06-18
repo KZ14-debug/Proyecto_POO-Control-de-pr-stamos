@@ -307,11 +307,16 @@ public class PantallaPrincipal {
 			new Object[][] {
 			},
 			new String[] {
-				"Usuario", "Items", "Alerta Activa"
+				"Codigo", "Usuario", "Items", "Alerta Activa"
 			}
 		) {
+			@Override
+			public boolean isCellEditable(int row, int column) {
+				return false;
+			}
+			
 			Class[] columnTypes = new Class[] {
-				String.class, String.class, Boolean.class
+				Integer.class, String.class, String.class, Boolean.class
 			};
 			public Class getColumnClass(int columnIndex) {
 				return columnTypes[columnIndex];
@@ -333,17 +338,19 @@ public class PantallaPrincipal {
 			}
 		});
 		btnAgregarP.setFont(new Font("Arial", Font.PLAIN, 12));
-		btnAgregarP.setBounds(467, 79, 121, 23);
+		btnAgregarP.setBounds(456, 79, 145, 23);
 		panelPantallaPrestamo.add(btnAgregarP);
 		
 		btnRetornarItemDePrestamo = new JButton("Retornar item");
+		btnRetornarItemDePrestamo.addActionListener(e -> retornarIdeA());
 		btnRetornarItemDePrestamo.setFont(new Font("Arial", Font.PLAIN, 12));
-		btnRetornarItemDePrestamo.setBounds(467, 123, 121, 23);
+		btnRetornarItemDePrestamo.setBounds(456, 123, 145, 23);
 		panelPantallaPrestamo.add(btnRetornarItemDePrestamo);
 		
 		JButton btnFinalizarP = new JButton("Finalizar Prestamo");
+		btnFinalizarP.addActionListener(e -> terminarPrestamo());
 		btnFinalizarP.setFont(new Font("Arial", Font.PLAIN, 12));
-		btnFinalizarP.setBounds(467, 164, 121, 23);
+		btnFinalizarP.setBounds(456, 164, 145, 23);
 		panelPantallaPrestamo.add(btnFinalizarP);
 		
 		JPanel panelPantallaCategoria = new JPanel();
@@ -859,11 +866,79 @@ public class PantallaPrincipal {
 
 		for(Prestamo prestamo : Controladora.getInstance().mostrarListaPrestamos().values())
 		{
-			modelo.addRow(new Object[]
+			
+			if(prestamo.getEstado())
 			{
-					prestamo.getUsuario().getNombre(), prestamo.getNombresItems(),prestamo.getAlerta() != null
-			});
+				modelo.addRow(new Object[]
+						{
+								prestamo.getIdPrestamo() ,prestamo.getUsuario().getNombre(), prestamo.getNombresItems(),prestamo.getAlerta() != null
+						});
+			}
+			
 		}
 	}
 	
+	
+	
+	private void terminarPrestamo()
+	{
+		int numeroFila = tableListaPrestamosHechos.getSelectedRow();
+		
+		if(numeroFila == -1)
+		{
+			JOptionPane.showMessageDialog(frame, "Debe seleccionar un prestamo", "Error", JOptionPane.ERROR_MESSAGE);
+		}
+		
+		else
+		{
+			DefaultTableModel modelo = (DefaultTableModel) tableListaPrestamosHechos.getModel();
+
+			int idPrestamo = (int) modelo.getValueAt(numeroFila, 0);
+
+			int respuesta = JOptionPane.showConfirmDialog(frame, "El prestamo será terminado.", "Confirmar finalización", JOptionPane.YES_NO_OPTION);
+			
+			
+			if(respuesta == JOptionPane.YES_OPTION)
+			{
+				try
+				{
+					Controladora.getInstance().borrarItem(idPrestamo);
+					
+					cargarTablaPrestamos();
+					
+					JOptionPane.showMessageDialog(frame, "Prestamo finalizado correctamente");
+				}
+				
+				catch(Exception e)
+				{
+					JOptionPane.showMessageDialog(frame, "Error al termianr el prestamo: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+				}	
+			}	
+		}
+	}
+	
+	
+	private void retornarIdeA()
+	{
+		
+		int fila = tableListaPrestamosHechos.getSelectedRow();
+
+		if(fila == -1)
+		{
+			JOptionPane.showMessageDialog(frame, "Necesita seleccionar un prestamo de la tabla", "Error", JOptionPane.ERROR_MESSAGE);
+
+			return;
+		}
+
+		DefaultTableModel model = (DefaultTableModel)tableListaPrestamosHechos.getModel();
+
+		int idPrestamo = (int) model.getValueAt(fila, 0);
+		Prestamo prestamo = Controladora.getInstance().buscarPrestamo(idPrestamo);
+		RetornarItem dialogo = new RetornarItem(frame, prestamo);
+
+		dialogo.setVisible(true);
+		
+		cargarTablaPrestamos();
+		
+	}
 }

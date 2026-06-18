@@ -322,7 +322,15 @@ public class Controladora {
 		 }
 
 		 Prestamo prestamo = prestamos.get(idPrestamo);
-		 	 
+		 
+		 
+		 for(Item item : prestamo.getItems().values())
+		 {
+			 item.setPrestamo(null);
+			 
+		 }
+		 
+		 prestamo.setAlerta(null);
 		 prestamo.setEstado(false);
 	 }
 	 
