@@ -27,11 +27,7 @@ import Logica.Usuario;
 public class PantallaPrincipal {
 
 	private JFrame frame;
-	private JButton btnPantallaUsuario;
-	private JButton btnPantallaItem;
 	private JButton btnPantallaPrestamo;
-	private JButton btnPantallaCategoria;
-	private JButton btnPantallaTipo;
 	private JButton btnPantallaReportes;
 	private JTable tableListaTipos;
 	private JButton btnEditarTipo;
@@ -58,6 +54,12 @@ public class PantallaPrincipal {
 	private JButton btnReporteItems;
 	private JButton btnReporteCategorias;
 	private JButton btnReporteTipos;
+	private JButton btnPantallaUsuario;
+	private JButton btnPantallaItem;
+	private JButton btnPantallaCategoria;
+	private JButton btnPantallaTipo;
+	private JButton btnPantallaAdministrador;
+	private JButton btnRegresar;
 
 	/**
 	 * Launch the application.
@@ -98,32 +100,10 @@ public class PantallaPrincipal {
 		tabbedPane.addTab("Pantalla Principal", null, panelPantallaPrincipal, null);
 		panelPantallaPrincipal.setLayout(null);
 		
-		btnPantallaUsuario = new JButton("Usuarios");
-		btnPantallaUsuario.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) 
-			{
-				tabbedPane.setSelectedIndex(1);
-			}
-		});
-		btnPantallaUsuario.setFont(new Font("Arial", Font.PLAIN, 14));
-		btnPantallaUsuario.setBounds(266, 82, 89, 23);
-		panelPantallaPrincipal.add(btnPantallaUsuario);
-		
 		JLabel lblNewLabel = new JLabel("Pantalla Principal");
 		lblNewLabel.setFont(new Font("Arial", Font.BOLD, 20));
 		lblNewLabel.setBounds(221, 27, 171, 23);
 		panelPantallaPrincipal.add(lblNewLabel);
-		
-		btnPantallaItem = new JButton("Item");
-		btnPantallaItem.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) 
-			{
-				tabbedPane.setSelectedIndex(2);
-			}
-		});
-		btnPantallaItem.setFont(new Font("Arial", Font.PLAIN, 14));
-		btnPantallaItem.setBounds(266, 130, 89, 23);
-		panelPantallaPrincipal.add(btnPantallaItem);
 		
 		btnPantallaPrestamo = new JButton("Prestamos");
 		btnPantallaPrestamo.addActionListener(new ActionListener() {
@@ -133,30 +113,8 @@ public class PantallaPrincipal {
 			}
 		});
 		btnPantallaPrestamo.setFont(new Font("Arial", Font.PLAIN, 14));
-		btnPantallaPrestamo.setBounds(254, 178, 112, 23);
+		btnPantallaPrestamo.setBounds(254, 178, 112, 38);
 		panelPantallaPrincipal.add(btnPantallaPrestamo);
-		
-		btnPantallaCategoria = new JButton("Categorias");
-		btnPantallaCategoria.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) 
-			{
-				tabbedPane.setSelectedIndex(4);
-			}
-		});
-		btnPantallaCategoria.setFont(new Font("Arial", Font.PLAIN, 14));
-		btnPantallaCategoria.setBounds(254, 226, 112, 23);
-		panelPantallaPrincipal.add(btnPantallaCategoria);
-		
-		btnPantallaTipo = new JButton("Tipos");
-		btnPantallaTipo.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) 
-			{
-				tabbedPane.setSelectedIndex(5);
-			}
-		});
-		btnPantallaTipo.setFont(new Font("Arial", Font.PLAIN, 14));
-		btnPantallaTipo.setBounds(266, 274, 89, 23);
-		panelPantallaPrincipal.add(btnPantallaTipo);
 		
 		
 		btnPantallaReportes = new JButton("Reportes");
@@ -167,8 +125,18 @@ public class PantallaPrincipal {
 			}
 		});
 		btnPantallaReportes.setFont(new Font("Arial", Font.PLAIN, 14));
-		btnPantallaReportes.setBounds(254, 323, 112, 23);
+		btnPantallaReportes.setBounds(254, 253, 112, 38);
 		panelPantallaPrincipal.add(btnPantallaReportes);
+		
+		btnPantallaAdministrador = new JButton("Administrar");
+		btnPantallaAdministrador.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				tabbedPane.setSelectedIndex(7);
+			}
+		});
+		btnPantallaAdministrador.setFont(new Font("Arial", Font.PLAIN, 14));
+		btnPantallaAdministrador.setBounds(254, 102, 112, 38);
+		panelPantallaPrincipal.add(btnPantallaAdministrador);
 		
 		JPanel panelPantallaUsuario = new JPanel();
 		tabbedPane.addTab("Usuario", null, panelPantallaUsuario, null);
@@ -191,6 +159,11 @@ public class PantallaPrincipal {
 				"Nombre", "Telefono", "Correo"
 			}
 		) {
+			@Override
+			public boolean isCellEditable(int row, int column) {
+				return false;
+			}
+			
 			Class[] columnTypes = new Class[] {
 				String.class, String.class, String.class
 			};
@@ -229,6 +202,15 @@ public class PantallaPrincipal {
 		btnEliminarUsuario.setBounds(497, 230, 89, 23);
 		panelPantallaUsuario.add(btnEliminarUsuario);
 		
+		btnRegresar = new JButton("Regresar");
+		btnRegresar.addActionListener(e ->
+		{
+			tabbedPane.setSelectedIndex(7);
+		});
+		btnRegresar.setFont(new Font("Arial", Font.PLAIN, 12));
+		btnRegresar.setBounds(497, 307, 89, 23);
+		panelPantallaUsuario.add(btnRegresar);
+		
 		JPanel panelPantallaItem = new JPanel();
 		tabbedPane.addTab("Item", null, panelPantallaItem, null);
 		panelPantallaItem.setLayout(null);
@@ -250,6 +232,7 @@ public class PantallaPrincipal {
 				"Nombre item", "Codigo", "Disponible", "Descripcion", "Categoria", "Tipo"
 			}
 		) {
+			
 			Class[] columnTypes = new Class[] {
 				String.class, Integer.class, Boolean.class, String.class, Object.class, Object.class
 			};
@@ -292,6 +275,15 @@ public class PantallaPrincipal {
 		btnEliminarItem.setFont(new Font("Arial", Font.PLAIN, 12));
 		btnEliminarItem.setBounds(488, 217, 89, 23);
 		panelPantallaItem.add(btnEliminarItem);
+		
+		btnRegresar = new JButton("Regresar");
+		btnRegresar.addActionListener(e ->
+		{
+			tabbedPane.setSelectedIndex(7);
+		});
+		btnRegresar.setFont(new Font("Arial", Font.PLAIN, 12));
+		btnRegresar.setBounds(488, 308, 89, 23);
+		panelPantallaItem.add(btnRegresar);
 		
 		JPanel panelPantallaPrestamo = new JPanel();
 		tabbedPane.addTab("Prestamo", null, panelPantallaPrestamo, null);
@@ -357,6 +349,15 @@ public class PantallaPrincipal {
 		btnFinalizarP.setBounds(456, 164, 145, 23);
 		panelPantallaPrestamo.add(btnFinalizarP);
 		
+		btnRegresar = new JButton("Regresar");
+		btnRegresar.addActionListener(e ->
+		{
+			tabbedPane.setSelectedIndex(0);
+		});
+		btnRegresar.setFont(new Font("Arial", Font.PLAIN, 12));
+		btnRegresar.setBounds(488, 308, 89, 23);
+		panelPantallaPrestamo.add(btnRegresar);
+		
 		JPanel panelPantallaCategoria = new JPanel();
 		tabbedPane.addTab("Categoria", null, panelPantallaCategoria, null);
 		panelPantallaCategoria.setLayout(null);
@@ -395,6 +396,15 @@ public class PantallaPrincipal {
 		btnEliminarCategoria.setBounds(480, 207, 89, 23);
 		panelPantallaCategoria.add(btnEliminarCategoria);
 		
+		btnRegresar = new JButton("Regresar");
+		btnRegresar.addActionListener(e ->
+		{
+			tabbedPane.setSelectedIndex(7);
+		});
+		btnRegresar.setFont(new Font("Arial", Font.PLAIN, 12));
+		btnRegresar.setBounds(488, 308, 89, 23);
+		panelPantallaCategoria.add(btnRegresar);
+		
 		JScrollPane scrollPane_1 = new JScrollPane();
 		scrollPane_1.setBounds(75, 70, 381, 244);
 		panelPantallaCategoria.add(scrollPane_1);
@@ -407,6 +417,11 @@ public class PantallaPrincipal {
 				"Lista de Categorias"
 			}
 		) {
+			@Override
+			public boolean isCellEditable(int row, int column) {
+				return false;
+			}
+			
 			Class[] columnTypes = new Class[] {
 				String.class
 			};
@@ -455,6 +470,15 @@ public class PantallaPrincipal {
 		btnEliminarTipo.setBounds(491, 232, 89, 23);
 		panelPantallaTipo.add(btnEliminarTipo);
 		
+		btnRegresar = new JButton("Regresar");
+		btnRegresar.addActionListener(e ->
+		{
+			tabbedPane.setSelectedIndex(7);
+		});
+		btnRegresar.setFont(new Font("Arial", Font.PLAIN, 12));
+		btnRegresar.setBounds(488, 308, 89, 23);
+		panelPantallaTipo.add(btnRegresar);
+		
 		JScrollPane scrollPane = new JScrollPane();
 		scrollPane.setBounds(103, 78, 343, 216);
 		panelPantallaTipo.add(scrollPane);
@@ -467,6 +491,11 @@ public class PantallaPrincipal {
 				"Tipos registrados"
 			}
 		) {
+			@Override
+			public boolean isCellEditable(int row, int column) {
+				return false;
+			}
+			
 			Class[] columnTypes = new Class[] {
 				String.class
 			};
@@ -477,7 +506,7 @@ public class PantallaPrincipal {
 		scrollPane.setViewportView(tableListaTipos);
 		
 		JPanel panelPantallaReportes = new JPanel();
-		tabbedPane.addTab("Alerta", null, panelPantallaReportes, null);
+		tabbedPane.addTab("Reportes", null, panelPantallaReportes, null);
 		panelPantallaReportes.setLayout(null);
 		
 		JLabel lblNewLabel_6 = new JLabel("Reportes");
@@ -528,6 +557,73 @@ public class PantallaPrincipal {
 		btnReporteTipos.setFont(new Font("Arial", Font.PLAIN, 12));
 		btnReporteTipos.setBounds(231, 225, 149, 33);
 		panelPantallaReportes.add(btnReporteTipos);
+		
+		btnRegresar = new JButton("Regresar");
+		btnRegresar.addActionListener(e ->
+		{
+			tabbedPane.setSelectedIndex(0);
+		});
+		btnRegresar.setFont(new Font("Arial", Font.PLAIN, 12));
+		btnRegresar.setBounds(488, 308, 89, 23);
+		panelPantallaReportes.add(btnRegresar);
+		
+		JPanel panelAdministardor = new JPanel();
+		tabbedPane.addTab("Administrador", null, panelAdministardor, null);
+		panelAdministardor.setLayout(null);
+		
+		btnPantallaUsuario = new JButton("Usuarios");
+		btnPantallaUsuario.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				tabbedPane.setSelectedIndex(1);
+			}
+		});
+		btnPantallaUsuario.setFont(new Font("Arial", Font.PLAIN, 14));
+		btnPantallaUsuario.setBounds(260, 83, 89, 23);
+		panelAdministardor.add(btnPantallaUsuario);
+		
+		btnPantallaItem = new JButton("Item");
+		btnPantallaItem.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				tabbedPane.setSelectedIndex(2);
+			}
+		});
+		btnPantallaItem.setFont(new Font("Arial", Font.PLAIN, 14));
+		btnPantallaItem.setBounds(260, 139, 89, 23);
+		panelAdministardor.add(btnPantallaItem);
+		
+		btnPantallaCategoria = new JButton("Categorias");
+		btnPantallaCategoria.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				tabbedPane.setSelectedIndex(4);
+			}
+		});
+		btnPantallaCategoria.setFont(new Font("Arial", Font.PLAIN, 14));
+		btnPantallaCategoria.setBounds(249, 191, 112, 23);
+		panelAdministardor.add(btnPantallaCategoria);
+		
+		btnPantallaTipo = new JButton("Tipos");
+		btnPantallaTipo.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				tabbedPane.setSelectedIndex(5);
+			}
+		});
+		btnPantallaTipo.setFont(new Font("Arial", Font.PLAIN, 14));
+		btnPantallaTipo.setBounds(260, 250, 89, 23);
+		panelAdministardor.add(btnPantallaTipo);
+		
+		btnRegresar = new JButton("Regresar");
+		btnRegresar.addActionListener(e ->
+		{
+			tabbedPane.setSelectedIndex(0);
+		});
+		btnRegresar.setFont(new Font("Arial", Font.PLAIN, 12));
+		btnRegresar.setBounds(488, 308, 89, 23);
+		panelAdministardor.add(btnRegresar);
+		
+		JLabel lblNewLabel_7 = new JLabel("Administrador");
+		lblNewLabel_7.setFont(new Font("Arial", Font.BOLD, 20));
+		lblNewLabel_7.setBounds(240, 23, 133, 23);
+		panelAdministardor.add(lblNewLabel_7);
 		
 		
 		
@@ -994,4 +1090,9 @@ public class PantallaPrincipal {
 		cargarTablaPrestamos();
 		
 	}
+	
+	
+	//*-*-**-*-*-*-*-*-*-*-*--*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*
+	
+
 }
