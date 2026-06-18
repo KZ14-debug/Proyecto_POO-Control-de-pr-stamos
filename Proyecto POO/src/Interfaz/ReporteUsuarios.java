@@ -17,6 +17,9 @@ import Logica.Usuario;
 
 import javax.swing.JList;
 import java.awt.Font;
+import java.util.ArrayList;
+import java.util.Collections;
+
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 
@@ -79,8 +82,16 @@ public class ReporteUsuarios extends JDialog {
 		DefaultTableModel modelo = (DefaultTableModel) tableListaDeUsuarios.getModel();
 
 		modelo.setRowCount(0);
+		
+		
+		
+		ArrayList<Usuario> usuarios = new ArrayList<>(Controladora.getInstance().mostrarListaUsuarios().values());
 
-		for(Usuario usuario : Controladora.getInstance().mostrarListaUsuarios().values())
+	    Collections.sort(usuarios, (usuario1, usuario2) -> usuario1.getNombre().compareToIgnoreCase(usuario2.getNombre()));
+	    
+	    
+
+		for(Usuario usuario : usuarios)
 		{
 			
 			String prestamosHechos = "";

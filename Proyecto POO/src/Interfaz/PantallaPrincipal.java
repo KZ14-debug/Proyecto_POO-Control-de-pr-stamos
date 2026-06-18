@@ -497,16 +497,34 @@ public class PantallaPrincipal {
 		panelPantallaReportes.add(btnReporteUsuarios);
 		
 		btnReporteItems = new JButton("Reporte Items");
+		btnReporteItems.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				ReporteItems ventana = new ReporteItems(frame);
+				ventana.setVisible(true);
+			}
+		});
 		btnReporteItems.setFont(new Font("Arial", Font.PLAIN, 12));
 		btnReporteItems.setBounds(231, 145, 149, 33);
 		panelPantallaReportes.add(btnReporteItems);
 		
 		btnReporteCategorias = new JButton("Reporte Categorias");
+		btnReporteCategorias.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				ReporteCategorias ventana = new ReporteCategorias(frame);
+				ventana.setVisible(true);
+			}
+		});
 		btnReporteCategorias.setFont(new Font("Arial", Font.PLAIN, 12));
 		btnReporteCategorias.setBounds(231, 300, 149, 33);
 		panelPantallaReportes.add(btnReporteCategorias);
 		
 		btnReporteTipos = new JButton("Reporte Tipos");
+		btnReporteTipos.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				ReporteTipo ventana = new ReporteTipo(frame);
+				ventana.setVisible(true);
+			}
+		});
 		btnReporteTipos.setFont(new Font("Arial", Font.PLAIN, 12));
 		btnReporteTipos.setBounds(231, 225, 149, 33);
 		panelPantallaReportes.add(btnReporteTipos);
