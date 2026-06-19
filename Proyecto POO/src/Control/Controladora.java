@@ -145,6 +145,10 @@ public class Controladora {
 	 
 	 public void borrarCategoria(Categoria categoria) throws Exception
 	 {
+		 for(Item item : items.values())
+		 {
+			 item.eliminarCategoria(categoria);
+		 }
 		 
 		 for(int i = 0; i < categorias.size(); i++)
 		 {
@@ -203,7 +207,15 @@ public class Controladora {
 	 
 	 public void borrarTipo(Tipo tipo) throws Exception
 	 {
-		 
+		 for(Item item : items.values())
+		 {
+			 if(item.getTipo() != null && item.getTipo().getTipo().equals(tipo.getTipo()))
+			 {
+				 item.setTipo(null);    	 
+			 }	 
+		 }
+			
+			
 		 for(int i = 0; i < tipos.size(); i++)
 		 {
 			 if(tipos.get(i).getTipo().equals(tipo.getTipo()))
@@ -219,12 +231,12 @@ public class Controladora {
 	 
 	 public Tipo buscarTipo(Tipo tipo) throws Exception
 	 {
-		 for(int i = 0; i < tipos.size(); i++)
-		 {
-			 if(tipos.get(i).getTipo().equals(tipo.getTipo()))
+		 
+		for(int i = 0; i < tipos.size(); i++)
+		{
+			if(tipos.get(i).getTipo().equals(tipo.getTipo()))
 			 {
-				 return tipos.get(i);
-	             
+				return tipos.get(i);   
 			 }
 		 }
 		 

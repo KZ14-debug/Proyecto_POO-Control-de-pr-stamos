@@ -66,7 +66,11 @@ public class Item {
 
 	public void setTipo(Tipo tipo) {
 		this.tipo = tipo;
-		tipo.agregarItem(this);
+		
+		if(tipo != null)
+		{
+			tipo.agregarItem(this);
+		}
 	}
 
 	public List<Categoria> getCategorias() {
@@ -98,8 +102,18 @@ public class Item {
 	
 	public void eliminarCategoria(Categoria categoria) {
 		
-		categorias.remove(categoria);
+		for(int i = 0; i < categorias.size(); i++)
+		{
+			
+			if(categorias.get(i).getCategoria().equals(categoria.getCategoria()))
+		    {
+				categorias.remove(i);
+		        return;   
+		    } 
+			
+		}
 	}
+	
 	
 	
 	public String toString()

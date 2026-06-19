@@ -142,9 +142,21 @@ public class VerItem extends JDialog {
         }
 
          
+        String nombreT;
+
+		if(item.getTipo() == null)
+		{
+		    nombreT = "Ninguno";
+		}
+		else
+		{
+		    nombreT = item.getTipo().getTipo();
+		}
+		
+		
         modelo.addRow(new Object[]
         		{
-        				item.getCodigoI(), item.getTipo(), item.getCategorias(),prestamoHecho,item.isDisponible()
+        				item.getCodigoI(), nombreT, item.getCategorias(),prestamoHecho,item.isDisponible()
          		});
 	}
 }

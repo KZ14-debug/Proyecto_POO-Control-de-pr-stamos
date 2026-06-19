@@ -106,9 +106,31 @@ public class ReporteItems extends JDialog {
 			}
 			
 			
+			String nombreT;
+			String categoriaI;
+
+			if(item.getTipo() == null)
+			{
+			    nombreT = "Ninguno";
+			}
+			else
+			{
+			    nombreT = item.getTipo().getTipo();
+			}
+			
+			
+			if(item.getCategorias().isEmpty())
+			{
+			    categoriaI = "No agregada";
+			}
+			else
+			{
+			    categoriaI = item.getCategorias().toString();
+			}
+			
 			modelo.addRow(new Object[]
 					{
-						item.getNombre(), item.getCodigoI(), item.getDescripcion(), item.getCategorias(), item.getTipo(), prestamosHechos
+						item.getNombre(), item.getCodigoI(), item.getDescripcion(), categoriaI, nombreT, prestamosHechos
 					});
 		}
 	    

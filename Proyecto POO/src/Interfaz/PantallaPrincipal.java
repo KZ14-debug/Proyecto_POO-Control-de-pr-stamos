@@ -949,9 +949,32 @@ public class PantallaPrincipal {
 
 		for(Item item : Controladora.getInstance().mostrarListaItems().values())
 		{
+			
+			String nombreT;
+			String categoriaI;
+
+			if(item.getTipo() == null)
+			{
+			    nombreT = "Ninguno";
+			}
+			else
+			{
+			    nombreT = item.getTipo().getTipo();
+			}
+			
+			if(item.getCategorias().isEmpty())
+			{
+			    categoriaI = "No agregada";
+			}
+			else
+			{
+			    categoriaI = item.getCategorias().toString();
+			}
+			
+			
 			modelo.addRow(new Object[]
 					{
-							item.getNombre(),item.getCodigoI(), item.isDisponible(), item.getDescripcion(), obtenerCategorias(item), item.getTipo().getTipo()
+							item.getNombre(),item.getCodigoI(), item.isDisponible(), item.getDescripcion(), categoriaI, nombreT
 					});
 		}
 	}

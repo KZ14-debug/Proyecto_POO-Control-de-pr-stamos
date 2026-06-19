@@ -192,14 +192,18 @@ public class AgregarItem extends JDialog {
 		
 	    comboBoxTipo.removeAllItems();
 
-	    
-	    for(Tipo tipo : Controladora.getInstance().mostrarListaTipos())
+	    if(Controladora.getInstance().mostrarListaTipos().isEmpty())
 	    {
-	        comboBoxTipo.addItem(tipo);
+	    	comboBoxTipo.addItem(new Tipo("Ninguno"));
 	    }
-	    
+	    else
+	    {
+		    for(Tipo tipo : Controladora.getInstance().mostrarListaTipos())
+		    {
+		        comboBoxTipo.addItem(tipo);
+		    }
+	    }
 	}
-	
 	
 	
 	private void cargarCategorias()
