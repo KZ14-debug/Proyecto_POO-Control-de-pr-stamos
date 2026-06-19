@@ -123,15 +123,15 @@ public class RetornarItem extends JDialog {
 		
 		DefaultTableModel model = (DefaultTableModel) tableItemsDelPrestamo.getModel();
 
-	    int codigo = (int) model.getValueAt(fila, 0);
-		Item item = itemsPrestamo.get(fila);
+	    int codigoItem = (int) model.getValueAt(fila, 0);
+		Item item = Controladora.getInstance().buscarItem(codigoItem);
 		int respuesta = JOptionPane.showConfirmDialog(this, "El item \"" + item.getNombre() + "\" será devuelto.", "Confirmar devolucion", JOptionPane.YES_NO_OPTION);
 		
 		
 		if(respuesta == JOptionPane.YES_OPTION)
 		{
 		
-			prestamo.borrarItem(codigo);
+			prestamo.borrarItem(codigoItem);
 			
 			
 	        item.setPrestamo(null);

@@ -344,6 +344,7 @@ public class Controladora {
 		 
 		 prestamo.setAlerta(null);
 		 prestamo.setEstado(false);
+		 prestamos.remove(idPrestamo);
 	 }
 	 
 	 

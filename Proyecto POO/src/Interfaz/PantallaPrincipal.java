@@ -62,6 +62,8 @@ public class PantallaPrincipal {
 	private JButton btnRegresar;
 	private JButton btnVerUsuario;
 	private JButton btnVerItem;
+	private JButton btnVerTipo;
+	private JButton btnVerCategoria;
 
 	/**
 	 * Launch the application.
@@ -395,19 +397,19 @@ public class PantallaPrincipal {
 			}
 		});
 		btnAgregarCategoria.setFont(new Font("Arial", Font.PLAIN, 12));
-		btnAgregarCategoria.setBounds(480, 112, 89, 23);
+		btnAgregarCategoria.setBounds(488, 73, 89, 23);
 		panelPantallaCategoria.add(btnAgregarCategoria);
 		
 		btnEditarCategoria = new JButton("Editar");
 		btnEditarCategoria.addActionListener(e -> editarCategoria());
 		btnEditarCategoria.setFont(new Font("Arial", Font.PLAIN, 12));
-		btnEditarCategoria.setBounds(480, 157, 89, 23);
+		btnEditarCategoria.setBounds(488, 107, 89, 23);
 		panelPantallaCategoria.add(btnEditarCategoria);
 		
 		btnEliminarCategoria = new JButton("Eliminar");
 		btnEliminarCategoria.addActionListener(e -> borrarCategoria());
 		btnEliminarCategoria.setFont(new Font("Arial", Font.PLAIN, 12));
-		btnEliminarCategoria.setBounds(480, 207, 89, 23);
+		btnEliminarCategoria.setBounds(488, 141, 89, 23);
 		panelPantallaCategoria.add(btnEliminarCategoria);
 		
 		btnRegresar = new JButton("Regresar");
@@ -445,6 +447,12 @@ public class PantallaPrincipal {
 		});
 		scrollPane_1.setViewportView(tableListaCategoria);
 		
+		btnVerCategoria = new JButton("Ver");
+		btnVerCategoria.addActionListener(e -> VerCatgeoria());
+		btnVerCategoria.setFont(new Font("Arial", Font.PLAIN, 12));
+		btnVerCategoria.setBounds(488, 175, 89, 23);
+		panelPantallaCategoria.add(btnVerCategoria);
+		
 		JPanel panelPantallaTipo = new JPanel();
 		tabbedPane.addTab("Tipo", null, panelPantallaTipo, null);
 		panelPantallaTipo.setLayout(null);
@@ -469,19 +477,19 @@ public class PantallaPrincipal {
 		});
 		
 		btnAgregarTipo.setFont(new Font("Arial", Font.PLAIN, 12));
-		btnAgregarTipo.setBounds(491, 131, 89, 23);
+		btnAgregarTipo.setBounds(491, 81, 89, 23);
 		panelPantallaTipo.add(btnAgregarTipo);
 		
 		btnEditarTipo = new JButton("Editar");
 		btnEditarTipo.addActionListener(e -> editarTipo());
 		btnEditarTipo.setFont(new Font("Arial", Font.PLAIN, 12));
-		btnEditarTipo.setBounds(491, 182, 89, 23);
+		btnEditarTipo.setBounds(491, 115, 89, 23);
 		panelPantallaTipo.add(btnEditarTipo);
 		
 		btnEliminarTipo = new JButton("Eliminar");
 		btnEliminarTipo.addActionListener(e -> borrarTipo());
 		btnEliminarTipo.setFont(new Font("Arial", Font.PLAIN, 12));
-		btnEliminarTipo.setBounds(491, 232, 89, 23);
+		btnEliminarTipo.setBounds(491, 149, 89, 23);
 		panelPantallaTipo.add(btnEliminarTipo);
 		
 		btnRegresar = new JButton("Regresar");
@@ -518,6 +526,12 @@ public class PantallaPrincipal {
 			}
 		});
 		scrollPane.setViewportView(tableListaTipos);
+		
+		btnVerTipo = new JButton("Ver");
+		btnVerTipo.addActionListener(e -> VerTipo());
+		btnVerTipo.setFont(new Font("Arial", Font.PLAIN, 12));
+		btnVerTipo.setBounds(491, 184, 89, 23);
+		panelPantallaTipo.add(btnVerTipo);
 		
 		JPanel panelPantallaReportes = new JPanel();
 		tabbedPane.addTab("Reportes", null, panelPantallaReportes, null);
@@ -733,6 +747,25 @@ public class PantallaPrincipal {
 		}
 	}
 	
+	
+	private void VerTipo()
+	{
+		int fila = tableListaTipos.getSelectedRow();
+
+	    if(fila == -1)
+	    {
+	        JOptionPane.showMessageDialog(frame, "Debe seleccionar un tipo", "Error",JOptionPane.ERROR_MESSAGE);
+	        return;
+	    }
+
+	    DefaultTableModel modelo = (DefaultTableModel) tableListaTipos.getModel();
+
+	    String nombreTipo = modelo.getValueAt(fila, 0).toString();
+
+	    VerTipo dialogo = new VerTipo(frame, nombreTipo);
+
+	    dialogo.setVisible(true);
+	}
 	//-*-*-*-*-*-*-*-*-*--**-*--*-**--**--*-*-**--**-*--*-**-*--*-*-*-*-*-**-*-**-*--**--*-*-*-*-*-*-*-*-*-*-*-*-*-**--*-*-*-*-*-*-*-*-*-**-*-*-*-*
 	
 	private void cargarTablaCategorias()
@@ -821,6 +854,25 @@ public class PantallaPrincipal {
 	}
 	
 	
+	
+	private void VerCatgeoria()
+	{
+		int fila = tableListaCategoria.getSelectedRow();
+
+	    if(fila == -1)
+	    {
+	        JOptionPane.showMessageDialog(frame, "Debe seleccionar una categoria", "Error",JOptionPane.ERROR_MESSAGE);
+	        return;
+	    }
+
+	    DefaultTableModel modelo = (DefaultTableModel) tableListaCategoria.getModel();
+
+	    String nombreCategoria = modelo.getValueAt(fila, 0).toString();
+
+	    VerCategoria dialogo = new VerCategoria(frame, nombreCategoria);
+
+	    dialogo.setVisible(true);
+	}
 	//-*-*-*-*-*-*-*-*-*--**-*--*-**--**--*-*-**--**-*--*-**-*--*-*-*-*-*-**-*-**-*--**--*-*-*-*-*-*-*-*-*-*-*-*-*-**--*-*-*-*-*-*-*-*-*-**-*-*-*-*
 	
 	private void cargarTablaUsuarios()
@@ -1141,7 +1193,7 @@ public class PantallaPrincipal {
 			{
 				try
 				{
-					Controladora.getInstance().borrarItem(idPrestamo);
+					Controladora.getInstance().terminarPrestamo(idPrestamo);
 					
 					cargarTablaPrestamos();
 					
