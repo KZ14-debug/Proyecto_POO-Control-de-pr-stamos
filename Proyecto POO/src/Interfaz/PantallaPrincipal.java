@@ -60,6 +60,8 @@ public class PantallaPrincipal {
 	private JButton btnPantallaTipo;
 	private JButton btnPantallaAdministrador;
 	private JButton btnRegresar;
+	private JButton btnVerUsuario;
+	private JButton btnVerItem;
 
 	/**
 	 * Launch the application.
@@ -187,19 +189,19 @@ public class PantallaPrincipal {
 			}
 		});
 		btnAgregarUsuario.setFont(new Font("Arial", Font.PLAIN, 12));
-		btnAgregarUsuario.setBounds(497, 96, 89, 23);
+		btnAgregarUsuario.setBounds(497, 60, 89, 23);
 		panelPantallaUsuario.add(btnAgregarUsuario);
 		
 		btnEditarUsuario = new JButton("Editar");
 		btnEditarUsuario.addActionListener(e -> editarUsuario());
 		btnEditarUsuario.setFont(new Font("Arial", Font.PLAIN, 12));
-		btnEditarUsuario.setBounds(497, 161, 89, 23);
+		btnEditarUsuario.setBounds(497, 94, 89, 23);
 		panelPantallaUsuario.add(btnEditarUsuario);
 		
 		btnEliminarUsuario = new JButton("Eliminar");
 		btnEliminarUsuario.addActionListener(e -> borrarUsuario());
 		btnEliminarUsuario.setFont(new Font("Arial", Font.PLAIN, 12));
-		btnEliminarUsuario.setBounds(497, 230, 89, 23);
+		btnEliminarUsuario.setBounds(497, 128, 89, 23);
 		panelPantallaUsuario.add(btnEliminarUsuario);
 		
 		btnRegresar = new JButton("Regresar");
@@ -210,6 +212,12 @@ public class PantallaPrincipal {
 		btnRegresar.setFont(new Font("Arial", Font.PLAIN, 12));
 		btnRegresar.setBounds(497, 307, 89, 23);
 		panelPantallaUsuario.add(btnRegresar);
+		
+		btnVerUsuario = new JButton("Ver");
+		btnVerUsuario.addActionListener(e -> VerUsuario());
+		btnVerUsuario.setFont(new Font("Arial", Font.PLAIN, 12));
+		btnVerUsuario.setBounds(497, 162, 89, 23);
+		panelPantallaUsuario.add(btnVerUsuario);
 		
 		JPanel panelPantallaItem = new JPanel();
 		tabbedPane.addTab("Item", null, panelPantallaItem, null);
@@ -261,19 +269,19 @@ public class PantallaPrincipal {
 			}
 		});
 		btnAgregarItem.setFont(new Font("Arial", Font.PLAIN, 12));
-		btnAgregarItem.setBounds(488, 116, 89, 23);
+		btnAgregarItem.setBounds(488, 75, 89, 23);
 		panelPantallaItem.add(btnAgregarItem);
 		
 		btnEditarItem = new JButton("Editar");
 		btnEditarItem.addActionListener(e -> editarItem());
 		btnEditarItem.setFont(new Font("Arial", Font.PLAIN, 12));
-		btnEditarItem.setBounds(488, 167, 89, 23);
+		btnEditarItem.setBounds(488, 109, 89, 23);
 		panelPantallaItem.add(btnEditarItem);
 		
 		btnEliminarItem = new JButton("Borrar");
 		btnEliminarItem.addActionListener(e -> borrarItem());
 		btnEliminarItem.setFont(new Font("Arial", Font.PLAIN, 12));
-		btnEliminarItem.setBounds(488, 217, 89, 23);
+		btnEliminarItem.setBounds(488, 143, 89, 23);
 		panelPantallaItem.add(btnEliminarItem);
 		
 		btnRegresar = new JButton("Regresar");
@@ -284,6 +292,12 @@ public class PantallaPrincipal {
 		btnRegresar.setFont(new Font("Arial", Font.PLAIN, 12));
 		btnRegresar.setBounds(488, 308, 89, 23);
 		panelPantallaItem.add(btnRegresar);
+		
+		btnVerItem = new JButton("Ver");
+		btnVerItem.addActionListener(e -> VerItem());
+		btnVerItem.setFont(new Font("Arial", Font.PLAIN, 12));
+		btnVerItem.setBounds(488, 177, 89, 23);
+		panelPantallaItem.add(btnVerItem);
 		
 		JPanel panelPantallaPrestamo = new JPanel();
 		tabbedPane.addTab("Prestamo", null, panelPantallaPrestamo, null);
@@ -891,8 +905,35 @@ public class PantallaPrincipal {
 
 		if(dialogo.isGuardado())
 		{
-			cargarTablaCategorias();
+			cargarTablaUsuarios();
 		}
+	}
+	
+	
+	
+	private void VerUsuario() 
+	{
+		
+		int fila = tableListaUsuarios.getSelectedRow();
+
+		if(fila == -1)
+		{
+			JOptionPane.showMessageDialog(frame, "Necesita seleccionar un usuario de la tabla", "Error", JOptionPane.ERROR_MESSAGE);
+
+			return;
+		}
+
+		DefaultTableModel model = (DefaultTableModel)tableListaUsuarios.getModel();
+
+		String correo = tableListaUsuarios.getValueAt(fila, 2).toString();
+		String nombre = tableListaUsuarios.getValueAt(fila, 0).toString();
+		String telefono = tableListaUsuarios.getValueAt(fila, 1).toString();
+		
+		VerUsuario dialogo = new VerUsuario(frame,nombre,telefono,correo);
+
+		dialogo.setVisible(true);
+
+		cargarTablaUsuarios();
 	}
 	
 	
@@ -1005,6 +1046,32 @@ public class PantallaPrincipal {
 		}
 	}
 	
+	
+	private void VerItem() 
+	{
+		
+		int fila = tableListaItems.getSelectedRow();
+
+		if(fila == -1)
+		{
+			JOptionPane.showMessageDialog(frame, "Necesita seleccionar un usuario de la tabla", "Error", JOptionPane.ERROR_MESSAGE);
+
+			return;
+		}
+
+		DefaultTableModel model = (DefaultTableModel)tableListaUsuarios.getModel();
+
+	
+		int codigo = (int) tableListaItems.getValueAt(fila, 1);
+		
+	    VerItem dialogo = new VerItem(frame, codigo);
+
+		dialogo.setVisible(true);
+
+		cargarTablaItems();
+	}
+	
+	
 	//-*-*-*-*-*-*-*-*-*--**-*--*-**--**--*-*-**--**-*--*-**-*--*-*-*-*-*-**-*-**-*--**--*-*-*-*-*-*-*-*-*-*-*-*-*-**--*-*-*-*-*-*-*-*-*-**-*-*-*-*
 
 	private void cargarTablaPrestamos()
@@ -1090,9 +1157,4 @@ public class PantallaPrincipal {
 		cargarTablaPrestamos();
 		
 	}
-	
-	
-	//*-*-**-*-*-*-*-*-*-*-*--*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*
-	
-
 }
