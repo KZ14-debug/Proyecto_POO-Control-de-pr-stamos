@@ -482,6 +482,7 @@ public class Controladora implements Serializable{
 
 		 prestamo.borrarItem(codigoI);
 	     item.setDisponible(true);
+	     item.setPrestamo(null);
 	     
 	     try
 		 {
@@ -496,10 +497,18 @@ public class Controladora implements Serializable{
 	     
 	 }
 
-	 public void retornarItemDelPrestamo(int idPrestamo,int codigoI) throws Exception 
+	 public void retornarItemDelPrestamo(int idPrestamo, int codigoI) throws Exception
 	 {
-		 eliminarItemDelPrestamo(idPrestamo,codigoI);
-		 
+	     eliminarItemDelPrestamo(idPrestamo, codigoI);
+
+	     Prestamo prestamo = prestamos.get(idPrestamo);
+
+	     if(prestamo != null && prestamo.getItems().isEmpty())
+	     {
+	         terminarPrestamo(idPrestamo);
+	     }
+
+	     guardarDatos();
 	 }
 	 
 	 public void terminarPrestamo(int idPrestamo) throws Exception 

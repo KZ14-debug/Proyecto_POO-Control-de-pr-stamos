@@ -187,12 +187,27 @@ public class EditarItem extends JDialog {
 				return;
 			}
 			
-			Item itemOriginal = Controladora.getInstance().buscarItem(codigoOriginal);
+	
+			Item item = Controladora.getInstance().buscarItem(codigoOriginal);
+
+			item.setNombre(nombre);
 			
-			Item nuevoItem = new Item(nombre, descripcion, disponible, codigoOriginal, tipo, categoriasSeleccionadas, itemOriginal.getPrestamo());
+			item.setDescripcion(descripcion);
+			
+			item.setDisponible(disponible);
+			
+			item.setTipo(tipo);
 
-			Controladora.getInstance().editarItem(codigoOriginal, nuevoItem);
+			item.getCategorias().clear();
 
+			for(Categoria categoria : categoriasSeleccionadas)
+			{
+			    item.agregarCategoria(categoria);
+			}
+			
+			
+			Controladora.guardarDatos();
+			
 			guardado = true;
 
 			JOptionPane.showMessageDialog(this,"El item ha sido editado correctamente");

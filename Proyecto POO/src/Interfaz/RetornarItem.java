@@ -131,13 +131,27 @@ public class RetornarItem extends JDialog {
 		if(respuesta == JOptionPane.YES_OPTION)
 		{
 		
-			prestamo.borrarItem(codigoItem);
+			try
+			{
+				Controladora.getInstance().retornarItemDelPrestamo(prestamo.getIdPrestamo(),codigoItem);
+
+			    cargarTablaItemsPrestados();
+
+			    
+			    if(prestamo.getItems().isEmpty())
+			    {
+			        dispose();
+			    }
+			    
+
+			    JOptionPane.showMessageDialog(this, "El item se ha retornado correctamente");
+			}
 			
-			
-	        item.setPrestamo(null);
-			cargarTablaItemsPrestados();
-			
-			JOptionPane.showMessageDialog(this, "El item se ha retornado correctamente");
+			catch(Exception e)
+			{
+			    JOptionPane.showMessageDialog(this, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+			}
+
 		}
 	}
 }
