@@ -1,9 +1,17 @@
 package Control;
 
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
+
+import javax.swing.JOptionPane;
 
 import Logica.Alerta;
 import Logica.Categoria;
@@ -12,8 +20,7 @@ import Logica.Prestamo;
 import Logica.Tipo;
 import Logica.Usuario;
 
-public class Controladora {
-
+public class Controladora implements Serializable{
 	 private static Controladora instance;
 	 private Map<Integer, Item> items;
 	 private Map<String, Usuario> usuarios;
@@ -44,9 +51,21 @@ public class Controladora {
 		 return instance;	 
 	 }
 	 
+	 
 	 public void crearItem(Item item)
 	 {
 		 items.put(item.getCodigoI(), item);
+		 
+		 
+		 try
+		 {
+			 guardarDatos();	 
+		 }
+		 
+		 catch(Exception e)
+		 {
+			 e.printStackTrace();	 
+		 }
 	 }
 	 
 	 
@@ -59,6 +78,17 @@ public class Controladora {
 		 }
 		 
 		 items.put(codigoI, item);
+		 
+		 try
+		 {
+			 guardarDatos();	 
+		 }
+		 
+		 catch(Exception e)
+		 {
+			 e.printStackTrace();	 
+		 }
+		 
 	 }
 	 
 	 public void borrarItem(int codigoI) throws Exception
@@ -70,6 +100,17 @@ public class Controladora {
 		 }
 		 
 		 items.remove(codigoI);
+		 
+		 try
+		 {
+			 guardarDatos();	 
+		 }
+		 
+		 catch(Exception e)
+		 {
+			 e.printStackTrace();	 
+		 }
+		 
 	 }
 	 
 	 public Item buscarItem(int codigoI)
@@ -85,6 +126,17 @@ public class Controladora {
 	 public void crearUsuario(Usuario usuario)
 	 {
 		 usuarios.put(usuario.getCorreo(), usuario);
+		 
+		 try
+		 {
+			 guardarDatos();	 
+		 }
+		 
+		 catch(Exception e)
+		 {
+			 e.printStackTrace();	 
+		 }
+		 
 	 }
 	 
 	 
@@ -97,6 +149,17 @@ public class Controladora {
 		 }
 		 
 		 usuarios.put(correo, usuario);
+		 
+		 try
+		 {
+			 guardarDatos();	 
+		 }
+		 
+		 catch(Exception e)
+		 {
+			 e.printStackTrace();	 
+		 }
+		 
 	 }
 	 
 	 public void borrarUsuario(String correo) throws Exception
@@ -108,6 +171,17 @@ public class Controladora {
 		 }
 		 
 		 usuarios.remove(correo);
+		 
+		 try
+		 {
+			 guardarDatos();	 
+		 }
+		 
+		 catch(Exception e)
+		 {
+			 e.printStackTrace();	 
+		 }
+		 
 	 }
 	 
 	 public Usuario buscarUsuario(String correo)
@@ -124,6 +198,17 @@ public class Controladora {
 	 public void crearCategoria(Categoria categoria) 
 	 {
 		 categorias.add(categoria);
+		 
+		 try
+		 {
+			 guardarDatos();	 
+		 }
+		 
+		 catch(Exception e)
+		 {
+			 e.printStackTrace();	 
+		 }
+		 
 	 }
 	 
 	 public void editarCategoria(String categoriaOriginal,  Categoria nuevaCategoria) throws Exception
@@ -134,6 +219,17 @@ public class Controladora {
 			 if(categorias.get(i).getCategoria().equals(categoriaOriginal))
 			 {
 				 categorias.set(i, nuevaCategoria);
+				 
+				 try
+				 {
+					 guardarDatos();	 
+				 }
+				 
+				 catch(Exception e)
+				 {
+					 e.printStackTrace();	 
+				 }
+				 
 	             return;
 			 }
 		 }
@@ -155,12 +251,24 @@ public class Controladora {
 			 if(categorias.get(i).getCategoria().equals(categoria.getCategoria()))
 			 {
 				 categorias.remove(i);
+				 
+				 try
+				 {
+					 guardarDatos();	 
+				 }
+				 
+				 catch(Exception e)
+				 {
+					 e.printStackTrace();	 
+				 }
+				 
 	             return;
 			 }
 		 }
 		 
-		 
 	     throw new Exception("Categoria no encontrada");
+	     
+	     
 	 }
 	 
 	 public Categoria buscarCategoria(Categoria categoria) throws Exception
@@ -186,6 +294,16 @@ public class Controladora {
 	 public void crearTipo(Tipo tipo) 
 	 {
 		 tipos.add(tipo);
+		 
+		 try
+		 {
+			 guardarDatos();	 
+		 }
+		 
+		 catch(Exception e)
+		 {
+			 e.printStackTrace();	 
+		 }
 	 }
 	 
 	 public void editarTipo(String nombreOriginal, Tipo nuevoTipo) throws Exception
@@ -196,10 +314,20 @@ public class Controladora {
 			 if(tipos.get(i).getTipo().equals(nombreOriginal))
 			 {
 				 tipos.set(i, nuevoTipo);
+				 
+				 try
+				 {
+					 guardarDatos();	 
+				 }
+				 
+				 catch(Exception e)
+				 {
+					 e.printStackTrace();	 
+				 }
+				 
 	             return;
 			 }
 		 }
-		 
 		 
 	     throw new Exception("Tipo no encontrada");
 
@@ -221,12 +349,25 @@ public class Controladora {
 			 if(tipos.get(i).getTipo().equals(tipo.getTipo()))
 			 {
 				 tipos.remove(i);
+				 
+				 try
+				 {
+					 guardarDatos();	 
+				 }
+				 
+				 catch(Exception e)
+				 {
+					 e.printStackTrace();	 
+				 }
+				 
 	             return;
 			 }
 		 }
 		 
 		 
 	     throw new Exception("Tipo no encontrada");
+	     
+	     
 	 }
 	 
 	 public Tipo buscarTipo(Tipo tipo) throws Exception
@@ -272,7 +413,19 @@ public class Controladora {
 		 
 		 usuario.agregarPrestamo(prestamo);
 		 
+		 try
+		 {
+			 guardarDatos();	 
+		 }
+		 
+		 catch(Exception e)
+		 {
+			 e.printStackTrace();	 
+		 }
+		 
 		 return prestamo; 
+		 
+		 
 	 }
 	 
 	 public void agregarItemAlPrestamo(int idPrestamo, int codigoI) throws Exception
@@ -298,6 +451,17 @@ public class Controladora {
 		 
 		 prestamo.agregarItem(item);
 	     item.setDisponible(false);
+	     
+	     try
+		 {
+			 guardarDatos();	 
+		 }
+		 
+		 catch(Exception e)
+		 {
+			 e.printStackTrace();	 
+		 }
+		 
 	 }
 	 
 	 public void eliminarItemDelPrestamo(int idPrestamo,int codigoI) throws Exception 
@@ -319,11 +483,23 @@ public class Controladora {
 		 prestamo.borrarItem(codigoI);
 	     item.setDisponible(true);
 	     
+	     try
+		 {
+			 guardarDatos();	 
+		 }
+		 
+		 catch(Exception e)
+		 {
+			 e.printStackTrace();	 
+		 }
+		 
+	     
 	 }
 
 	 public void retornarItemDelPrestamo(int idPrestamo,int codigoI) throws Exception 
 	 {
 		 eliminarItemDelPrestamo(idPrestamo,codigoI);
+		 
 	 }
 	 
 	 public void terminarPrestamo(int idPrestamo) throws Exception 
@@ -345,6 +521,16 @@ public class Controladora {
 		 prestamo.setAlerta(null);
 		 prestamo.setEstado(false);
 		 prestamos.remove(idPrestamo);
+		 
+		 try
+		 {
+			 guardarDatos();	 
+		 }
+		 
+		 catch(Exception e)
+		 {
+			 e.printStackTrace();	 
+		 }
 	 }
 	 
 	 
@@ -479,5 +665,41 @@ public class Controladora {
 		 item.agregarCategoria(categoria);
 	 }
 	 
+	 
+	 
+		
+	 public static void guardarDatos() throws IOException	
+	 {
+			
+		FileOutputStream file = new FileOutputStream("DatosSistemasPrestamos.data");
+		ObjectOutputStream stream = new ObjectOutputStream(file);
+		stream.writeObject(instance);
+		stream.close();
+		file.close();
+			
+	 }
+	 
+	 
+	 public static void cargarDatos() throws IOException, ClassNotFoundException
+	 {
+		 
+		try
+		{
+			
+			 FileInputStream file = new FileInputStream("DatosSistemasPrestamos.data");
+			 ObjectInputStream stream = new ObjectInputStream(file);
+			 instance = (Controladora)stream.readObject();
+			 stream.close();
+			 file.close();
+			
+		}
+		 catch(Exception e)
+		{
+			 
+			 instance = new Controladora();
+			 
+		}
+		
+	 }
 	 
 }

@@ -72,6 +72,8 @@ public class PantallaPrincipal {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
+					Controladora.cargarDatos();
+					
 					PantallaPrincipal window = new PantallaPrincipal();
 					window.frame.setVisible(true);
 				} catch (Exception e) {
@@ -1232,4 +1234,8 @@ public class PantallaPrincipal {
 		cargarTablaPrestamos();
 		
 	}
+	
+	
+	//*-*--*-*-*-*-*-*-*-*-*-*-*--*-*-*-*-*-*-*-*-*-*-*-*-*-*--*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*****-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*
+	
 }

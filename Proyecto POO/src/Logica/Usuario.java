@@ -1,9 +1,10 @@
 package Logica;
 
+import java.io.Serializable;
 import java.util.Map;
 
 
-public class Usuario {
+public class Usuario implements Serializable{
 	
 	private String nombre;
 	private String correo;

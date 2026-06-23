@@ -1,10 +1,11 @@
 package Logica;
 
+import java.io.Serializable;
 import java.util.List;
 import java.util.Map;
 
 
-public class Item {
+public class Item implements Serializable{
 	
 	private String nombre;
 	private String descripcion;

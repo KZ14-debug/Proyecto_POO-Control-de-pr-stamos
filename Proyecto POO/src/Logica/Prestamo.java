@@ -1,11 +1,12 @@
 package Logica;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.Map;
 import java.util.TreeMap;
 
 
-public class Prestamo {
+public class Prestamo implements Serializable{
 	
 	private int idPrestamo;
 	private static int numeroId = 1;
