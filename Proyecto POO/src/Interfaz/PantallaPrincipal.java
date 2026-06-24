@@ -2,6 +2,7 @@ package Interfaz;
 
 import java.awt.EventQueue;
 
+
 import javax.swing.JFrame;
 import javax.swing.JTabbedPane;
 import java.awt.BorderLayout;
@@ -953,7 +954,7 @@ public class PantallaPrincipal {
 		String nombre = tableListaUsuarios.getValueAt(fila, 0).toString();
 		String telefono = tableListaUsuarios.getValueAt(fila, 1).toString();
 		
-		EditarUsuario dialogo = new EditarUsuario(frame,correo,nombre,telefono);
+		EditarUsuario dialogo = new EditarUsuario(frame,nombre,telefono,correo);
 
 		dialogo.setVisible(true);
 

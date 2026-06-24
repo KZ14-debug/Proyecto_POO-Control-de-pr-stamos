@@ -1,6 +1,7 @@
 package Control;
 
 import java.io.FileInputStream;
+
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -140,15 +141,19 @@ public class Controladora implements Serializable{
 	 }
 	 
 	 
-	 public void editarUsuario(String correo, Usuario usuario) throws Exception
+	 public void editarUsuario(String correoOriginal, Usuario usuarioEditado) throws Exception
 	 {
 		 
-		 if(!usuarios.containsKey(correo))
+		 if(!usuarios.containsKey(correoOriginal))
 		 {
 			 throw new Exception("El correo del usuario no es valido");
 		 }
 		 
-		 usuarios.put(correo, usuario);
+		    
+		 usuarios.remove(correoOriginal);
+
+		 
+		 usuarios.put(usuarioEditado.getCorreo(), usuarioEditado);
 		 
 		 try
 		 {
