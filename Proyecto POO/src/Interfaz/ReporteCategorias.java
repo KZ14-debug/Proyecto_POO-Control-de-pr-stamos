@@ -88,9 +88,12 @@ public class ReporteCategorias extends JDialog {
 			
 			String nombreI = " ";
 
-			for(Item item : categoria.getItems())
+			for(Item item: Controladora.getInstance().mostrarListaItems().values())
 			{
-			    nombreI = nombreI + item.getNombre() + ", ";
+			    if(item.getCategorias().contains(categoria))
+			    {
+			        nombreI = nombreI + item.getNombre() + ", ";
+			    }
 			}
 			
 			
